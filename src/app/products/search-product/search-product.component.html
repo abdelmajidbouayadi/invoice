@@ -1,0 +1,60 @@
+<style>
+table {
+  /* table-layout: fixed; */
+  width: 100%;
+  /* border-collapse: collapse; */
+}
+
+thead th:nth-child(1) {
+  width: 20%;
+}
+
+thead th:nth-child(2) {
+  width: 40%;
+}
+
+thead th:nth-child(3) {
+  width: 20%;
+}
+thead th:nth-child(4) {
+  width: 20%;
+}
+
+
+</style>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>Search Products</h1>
+      <input type="text" class="form-control" #input (input)="onInput(input)" />
+      <div>
+        <table class="table table-striped ">
+          <thead>
+            <th>N</th>
+            <th>description</th>
+            <th>price</th>
+            <th></th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of printProducts" >
+              <td>{{product?._id}}</td>
+              <td>{{product?.description}}</td>
+              <td>{{product?.price}}</td>
+              <td>
+                <button class="btn btn-secondary btn-sm" (click)="onAdd(product)">
+                  add
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div *ngIf="collectionSize > maxSize" style="float: right" >
+        <ngb-pagination  [collectionSize]="collectionSize"  [(page)]="page" (pageChange)="onPagination(page)"  [maxSize]="maxSize" [rotate]="false" [boundaryLinks]="false" size="sm"></ngb-pagination>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

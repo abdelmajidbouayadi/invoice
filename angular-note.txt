@@ -1,0 +1,17 @@
+***********************************************
+**************   Angular Notes  ***************
+**************                  ***************
+***********************************************
+
+
+I-Getting stated:
+
+what is Angular:
+Angular is a framework to build a web application using Html, Css and JavaScript.
+
+the benefits of using Angular:
+ Gives our application a clean structure
+ Include a lot of re-usable code
+ Makes our application more testable
+
+

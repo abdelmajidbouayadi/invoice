@@ -1,0 +1,84 @@
+<style>
+  th:nth-child(1) {
+    width: 10%;
+  }
+  th:nth-child(2) {
+    width: 40%;
+    text-overflow: ellipsis;
+  }
+  th:nth-child(3) {
+    width: 20%;
+    text-overflow: ellipsis;
+  }
+  th:nth-child(4) {
+    width: 30%;
+    text-overflow: ellipsis;
+  }
+
+  tr:hover {
+    background-color: whitesmoke;
+    cursor: pointer;
+  }
+  tr:active {
+    background-color: lightgray;
+  }
+
+  .nohovering:hover {
+    background-color: white;
+  }
+  .text-overflow {
+    max-width: 1px;
+    white-space: wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  thead {
+    border-bottom: 2px solid gray;
+  }
+</style>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-4 d-none d-lg-block">
+      <div class="d-flex bd-highlight my-3">
+        <div class="flex-grow-1 bd-highlight">
+          <h1>All invoices</h1>
+        </div>
+        <div class="bd-highlight">
+          <button class="btn btn-info" style="color: white;" routerLink="/sales/invoices/new">
+            <i class="bi bi-plus-lg"></i>
+            new invoice
+          </button>
+        </div>
+      </div>
+      <table class="table">
+        <thead>
+          <tr class="nohovering">
+            <th>N</th>
+            <th class="text-overflow">name</th>
+            <th class="text-overflow">date</th>
+            <th class="text-overflow">amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let invoice of invoices" >
+          <tr  [routerLink]="['/sales/invoices', invoice._id]">
+            <td>{{ invoice?.num }}</td>
+            <td class="text-overflow">{{ invoice?.person?.name }}</td>
+            <td class="text-overflow">{{invoice?.date}}</td>
+            <td class="text-overflow">
+               {{invoiceTotal(invoice)}}
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+
+
+    </div>
+
+    <div class="col-8">
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,220 @@
+<style>
+  .input {
+    border: none;
+    width: 100%;
+  }
+  .input:focus {
+    outline: none;
+    border-bottom: 1px solid black;
+  }
+  table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead th:nth-child(1) {
+    width: 15%;
+  }
+
+  thead th:nth-child(2) {
+    width: 40%;
+  }
+
+  thead th:nth-child(3) {
+    width: 20%;
+  }
+  thead th:nth-child(4) {
+    width: 20%;
+  }
+  thead th:nth-child(5) {
+    width: 5%;
+  }
+
+  th,
+  td {
+    padding: 2px;
+  }
+
+  .word-key-end {
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+    text-align: end;
+  }
+  .word-key-start {
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+    text-align: start;
+  }
+  .right {
+    text-align: right;
+  }
+</style>
+
+<form  [formGroup]="form">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
+        <div class="row px-4 py-5 bg-info text-white">
+          <div class="col">
+            <h1><i class="bi bi-file-text"></i> New Invoice</h1>
+          </div>
+        </div>
+
+        <div class="row bg-light pb-4 ps-4">
+          <!-- Bill TO------------------------------- -->
+          <div class="col-8 p-0">
+            <div  formGroupName="person">
+              <p class="word-key-start m-0">Bill to:</p>
+              <input type="text" placeholder="Company Name" class="input" formControlName='name' />
+              <input type="text" placeholder="Address" class="input" formControlName='address' />
+              <input type="text" placeholder="City" class="input" formControlName='city' />
+              <input type="text" placeholder="Country" class="input" formControlName='country' />
+              <input type="text" placeholder="Postal" class="input" formControlName='postal'/>
+            </div>
+          </div>
+
+          <!-- invoice N ------------------------------------------- -->
+          <div class="col-4">
+            <div class="mb-2">
+              <p class="word-key-end m-0">invoice N:</p>
+              <input type="text" placeholder="0000" class="input right" formControlName="num"/>
+            </div>
+            <div class="mb-2">
+              <p class="word-key-end m-0">Date:</p>
+              <input type="date" placeholder="01/02/2021" class="input right" formControlName="date" />
+            </div>
+            <div class="mb-2">
+              <p class="word-key-end m-0">Invoice due Date:</p>
+              <input type="date" placeholder="01/02/2021" class="input right" formControlName="invoiceDueDate" />
+            </div>
+          </div>
+        </div>
+        <div class="row ps-4">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>QTY</th>
+                <th>description</th>
+                <th>price</th>
+                <th>Amount</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody formArrayName="rows">
+              <tr *ngFor="let rowForm of rowsControls; let i = index">
+                <ng-container [formGroup]="rowForm">
+                  <td>
+                    <input
+                      type="number"
+                      placeholder="quantity"
+                      class="input"
+                      formControlName="quantity"
+                    />
+                  </td>
+                  <td formGroupName='product'>
+                    <input
+                      type="text"
+                      placeholder="description"
+                      class="input"
+                      formControlName="description"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      placeholder="prix"
+                      class="input"
+                      formControlName="price"
+                    />
+                  </td>
+                  <td>
+                    {{
+                      rowForm.get("price")?.value *
+                        rowForm.get("quantity")?.value
+                    }}
+                  </td>
+                  <td>
+                    <button
+                      class="btn btn-outline-secondary border-0"
+                      style="
+                        font-size: 16px;
+                        padding: 0px;
+                        width: 100%;
+                        text-align: center;
+                      "
+                      (click)="deleteRow(i)"
+                    >
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </td>
+                </ng-container>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                  <button
+                    class="btn btn-outline-secondary border-0"
+                    style="
+                      font-size: 16px;
+                      padding: 0px;
+                      width: 100%;
+                      text-align: center;
+                    "
+                    (click)="addRow()"
+                  >
+                    <i class="bi bi-plus-lg"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- -----Total and Note *------------------------- -->
+        <div class="row">
+          <div class="col-7 bg-light ps-4">
+            <div class="form-group">
+              <label for="note">Note</label>
+              <textarea
+              formControlName="note"
+                name="note"
+                id="note"
+                cols="30"
+                rows="2"
+                class="form-control bg-light"
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="col-5 bg-info text-white">
+            <h3 class="right">Total</h3>
+            <h1 class="right">{{ getTotal() }}</h1>
+          </div>
+        </div>
+
+        <!-- --Save ------------------------------------ -->
+        <div class="row pe-2">
+          <div class="col-12">
+            <div class="d-flex justify-content-end">
+              <button class="btn btn-success" type="button" (click)="onSubmit()">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col p-0">
+
+        <!-- search products -->
+        <div class="border border-5 rounded border-sacondary sticky-top" style="height:100vh;">
+        <app-search-product  (product)="addRow($event)"></app-search-product>
+      </div>
+      </div>
+    </div>
+  </div>
+</form>
+

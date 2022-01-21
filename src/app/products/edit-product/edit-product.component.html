@@ -1,0 +1,60 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="d-flex flex-column bg-light border rounded">
+
+    <!-- head -->
+    <div class="d-flex p-2">
+      <div class="flex-grow-1 fw-bold fs-3" >{{newProduct ? 'New' : 'Edit'}}  Product</div>
+      <div class="flex-shrik">
+        <button type="button" class="btn btn-primary btn-sm" (click)="onCancel()">
+          cancel
+          <i class="bi bi-x-lg"></i>
+        </button>
+        <button type="submit" class="btn btn-success btn-sm" [disabled]="!form.valid"  >
+          save
+          <!-- icon save -->
+          <i *ngIf="!editProductResponse?.save" class="bi bi-save"></i>
+          <!-- spinner -->
+          <span *ngIf="editProductResponse?.save"
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+          ></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- handle error -->
+    <div *ngIf="editProductResponse?.error" class="alert alert-danger fs-3" > the product not {{newProduct ? 'saved' : 'updated'}}</div>
+
+     <!-- handle success -->
+     <div *ngIf="editProductResponse?.complete" class="alert alert-success fs-3" > the product  {{newProduct ? 'saved' : 'updated'}} with success</div>
+
+
+     <!-- the inputs -->
+    <div class="d-flex flex-column p-2">
+      <div class="input-group mb-3 input-group-sm">
+        <span class="input-group-text fw-bold">Bar code:  </span>
+        <input type="text" class="form-control" placeholder=""  formControlName="barcode"/>
+      </div>
+
+      <div class="input-group mb-3 input-group-sm">
+        <span class="input-group-text fw-bold"
+          >Title:
+        </span>
+        <input type="text" class="form-control" formControlName="title"  />
+      </div>
+
+      <div class="input-group mb-3 input-group-sm">
+        <span class="input-group-text fw-bold">Description:</span>
+        <input type="text" class="form-control" formControlName="description" />
+      </div>
+
+      <div class="input-group mb-3 input-group-sm">
+        <span class="input-group-text fw-bold"
+          >Price : </span
+        >
+        <input type="number" class="form-control" formControlName="price" />
+      </div>
+    </div>
+  </div>
+</form>
