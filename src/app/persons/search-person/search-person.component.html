@@ -1,6 +1,16 @@
 <style>
+  .ab-container{
+    position: absolute;
+    width: 93% ;
+    z-index: 100;
+    background-color: white;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+    padding: 4px;
+  }
   .hover {
-    padding-top: 4px;
+    padding-top: 6px;
+    padding-left: 8px;
     border-bottom: 1px solid lightgray;
     cursor: pointer;
   }
@@ -11,9 +21,19 @@
     background-color: lightgray;
   }
 </style>
-<div>
-  <input type="text" class="form-control p-0" />
-  <ul>
-    <li class="hover">ddddd</li>
-  </ul>
+<div class="ab-container nav flex-column">
+  <input type="text" placeholder="search" class="form-control p-1 ps-2" #input (input)="onInput(input)" />
+  <div  *ngFor="let person of printPersons"  >
+    <li class="hover nav-item" (click)="onSend(person)">
+      {{person?.name}}</li>
+    <div *ngIf="collectionSize > maxSize" style="float: right" >
+      <ngb-pagination  [collectionSize]="collectionSize"  [(page)]="page" (pageChange)="onPagination(page)"  [maxSize]="maxSize" [rotate]="false" [boundaryLinks]="false" size="sm"></ngb-pagination>
+      </div>
+  </div>
+  <div class="bg-light p-2">
+      <a (click)="onAppEdit()" class="hover text-primary" > <i class="bi bi-plus"></i> add new customer </a>
+      <div *ngIf="isEditMode">
+        <app-edit-person (cancelSave)="onAdd($event)"></app-edit-person>
+      </div>
+  </div>
 </div>
