@@ -1,7 +1,7 @@
 <style>
-  #main-nav{
+  #main-nav {
     position: fixed;
-    top:50px;
+    top: 50px;
     width: 200px;
     height: 100vh;
   }
@@ -12,19 +12,19 @@
     background-color: #2485e8;
     font-weight: 500;
   }
-  a.select{
+  a.select {
     background-color: #2485e8;
   }
-  a.active{
+  a.active {
     background-color: #161c1f;
     color: #2485e8;
   }
-  a.active:hover{
+  a.active:hover {
     background-color: #161c1f;
-    font-weight:500;
+    font-weight: 500;
   }
 
-  .logo{
+  .logo {
     position: fixed;
   }
 </style>
@@ -67,48 +67,106 @@
     </div>
   </div>
 </nav> -->
-<img src="./../../assets/logo.jpg" alt="Abdelmajid" width="200" height="50" class="logo" >
-<ul id="main-nav" class="nav flex-column bg-dark" >
+<img
+  src="./../../assets/logo.jpg"
+  alt="Abdelmajid"
+  width="200"
+  height="50"
+  class="logo"
+/>
+<ul id="main-nav" class="nav flex-column bg-dark">
   <li class="nav-item">
-    <a class="nav-link" routerLinkActive="active" routerLink="/dashboard">Dashboard</a>
+    <a class="nav-link" routerLinkActive="active" routerLink="/dashboard"
+      >Dashboard</a
+    >
   </li>
   <li class="nav-item">
-    <a class="nav-link " routerLinkActive="select" routerLink="/inventory">Inventory</a>
-      <ul class="nav flex-column ps-3">
-        <li class="nav-item">
-          <a class="nav-link "  routerLinkActive="active" routerLink="/inventory/products">Products</a>
-        </li>
-      </ul>
-  </li>
-
-  <li class="nav-item">
-    <a class="nav-link"  routerLinkActive="select" routerLink="/sales">Sales</a>
-    <ul class="nav flex-column ps-3">
+    <a class="nav-link" routerLinkActive="select" (click)="onClick('inventory')"
+      >Inventory
+      <i class="bi" [ngClass]="{'bi-chevron-right' : !affiche.inventory,'bi-chevron-down' : affiche.inventory   }" style="float: right"></i
+    ></a>
+    <ul [hidden]="!affiche.inventory" class="nav flex-column ps-3">
       <li class="nav-item">
-        <a class="nav-link"  routerLinkActive="active" routerLink="/sales/customers">Customers</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active" routerLink="/sales/invoices">Invoices</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active" routerLink="/sales/payments-received">Payments Received</a>
+        <a
+          class="nav-link"
+          routerLinkActive="active"
+          routerLink="/inventory/products"
+          >Products</a
+        >
       </li>
     </ul>
   </li>
 
   <li class="nav-item">
-    <a class="nav-link "  routerLinkActive="select" routerLink="/purchases">Purchases</a>
-    <ul class="nav flex-column ps-3">
+    <a
+      class="nav-link"
+      routerLinkActive="select"
+      (click)="onClick('sales')"
+      >Sales
+      <i class="bi" [ngClass]="{'bi-chevron-right' : !affiche.sales,'bi-chevron-down' : affiche.sales   }" style="float: right"></i
+        >
+      </a
+    >
+    <ul [hidden]="!affiche.sales" class="nav flex-column ps-3">
       <li class="nav-item">
-        <a class="nav-link"  routerLinkActive="active" routerLink="/purchases/vendors">Vendors</a>
+        <a
+          class="nav-link"
+          routerLinkActive="active"
+          routerLink="/sales/customers"
+          >Customers</a
+        >
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active" routerLink="/purchases/bills">Bills</a>
+        <a
+          class="nav-link"
+          routerLinkActive="active"
+          routerLink="/sales/invoices"
+          >Invoices</a
+        >
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active" routerLink="/purchases/payments-made">Payments Made</a>
+        <a
+          class="nav-link"
+          routerLinkActive="active"
+          routerLink="/sales/payments-received"
+          >Payments Received</a
+        >
       </li>
     </ul>
   </li>
 
+  <li class="nav-item">
+    <a class="nav-link" routerLinkActive="select" (click)="onClick('purchases')"
+      >Purchases
+      <i class="bi" [ngClass]="{'bi-chevron-right' : !affiche.purchases,'bi-chevron-down' : affiche.purchases   }" style="float: right"></i
+        >
+      </a
+    >
+    <ul [hidden]="!affiche.purchases" class="nav flex-column ps-3">
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLinkActive="active"
+          routerLink="/purchases/vendors"
+          >Vendors</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLinkActive="active"
+          routerLink="/purchases/bills"
+          >Bills</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLinkActive="active"
+          routerLink="/purchases/payments-made"
+          >Payments Made</a
+        >
+      </li>
+    </ul>
+  </li>
 </ul>
