@@ -40,6 +40,7 @@ export class EditPersonComponent implements OnInit {
   }
 
   onCancel() {
+    console.log('from cancel')
     this.event.emit({ cancel: true });
   }
 
