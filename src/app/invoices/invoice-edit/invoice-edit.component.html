@@ -51,6 +51,13 @@
   .right {
     text-align: right;
   }
+  .hover:hover{
+    box-shadow: 0 0 0 0.05rem rgba(13, 110, 253, 0.25);
+  }
+  .hover:active{
+    background-color: lightgray;
+    box-shadow: 0 0 0 0.05rem rgba(13, 110, 253, 0.25);
+  }
 </style>
 
 <form  [formGroup]="form">
@@ -63,10 +70,25 @@
           </div>
         </div>
 
+
+        <!-- select a customer -->
+        <div class="row bg-light ps-3 pt-3">
+              <div class="col-3">
+               <p class="py-2">Customer name:</p> </div>
+              <div class="col-6" style="position: relative;">
+                <p class="form-control text-secondary p-1 hover" (click)="isSearchPerson=!isSearchPerson">{{form.get('name')?.value ? form.get('name')?.value: 'select customer'}}
+                  <i class="bi " [ngClass]="{'bi-chevron-right': !isSearchPerson, 'bi-chevron-down': isSearchPerson}" style="float: right;"></i>
+                </p>
+                <div  *ngIf="isSearchPerson">
+                  <app-search-person (person)="onSearchPerson($event)"></app-search-person>
+                </div>
+              </div>
+
+        </div>
         <div class="row bg-light pb-4 ps-4">
           <!-- Bill TO------------------------------- -->
-          <div class="col-8 p-0">
-            <div  formGroupName="person">
+          <div class="col-7 p-0">
+            <div >
               <p class="word-key-start m-0">Bill to:</p>
               <input type="text" placeholder="Company Name" class="input" formControlName='name' />
               <input type="text" placeholder="Address" class="input" formControlName='address' />
@@ -77,18 +99,18 @@
           </div>
 
           <!-- invoice N ------------------------------------------- -->
-          <div class="col-4">
+          <div class="col-5">
             <div class="mb-2">
               <p class="word-key-end m-0">invoice N:</p>
-              <input type="text" placeholder="0000" class="input right" formControlName="num"/>
+              <input [attr.disabled]="true" type="number" placeholder="0000" class="input right disabled" formControlName="num"    />
             </div>
             <div class="mb-2">
               <p class="word-key-end m-0">Date:</p>
-              <input type="date" placeholder="01/02/2021" class="input right" formControlName="date" />
+              <input type="datetime-local" placeholder="insert date" class="input right" formControlName="date" />
             </div>
             <div class="mb-2">
               <p class="word-key-end m-0">Invoice due Date:</p>
-              <input type="date" placeholder="01/02/2021" class="input right" formControlName="invoiceDueDate" />
+              <input type="datetime-local" placeholder="Due date" class="input right" formControlName="invoiceDueDate" />
             </div>
           </div>
         </div>
@@ -114,7 +136,13 @@
                       formControlName="quantity"
                     />
                   </td>
-                  <td formGroupName='product'>
+                  <td>
+                    <input
+                      type="text"
+                      placeholder="title"
+                      class="input fw-bold"
+                      formControlName="title"
+                    />
                     <input
                       type="text"
                       placeholder="description"
@@ -207,10 +235,10 @@
           </div>
         </div>
       </div>
-      <div class="col p-0">
+      <div class="col p-0" style="position: relative;">
 
         <!-- search products -->
-        <div class="border border-5 rounded border-sacondary sticky-top" style="height:100vh;">
+        <div class="border border-5 rounded border-sacondary " [ngClass]="{'sticky-top':!isSearchPerson }">
         <app-search-product  (product)="addRow($event)"></app-search-product>
       </div>
       </div>

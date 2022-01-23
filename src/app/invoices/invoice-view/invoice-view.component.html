@@ -73,7 +73,7 @@
           <ng-container *ngFor="let invoice of invoices">
             <tr (click)="viewInvoice(invoice)">
               <td>{{ invoice?.num }}</td>
-              <td class="text-overflow">{{ invoice?.person?.name }}</td>
+              <td class="text-overflow">{{ invoice?.name }}</td>
               <td class="text-overflow">{{ invoice?.date }}</td>
               <td class="text-overflow">
                 {{ invoiceTotal(invoice) }}

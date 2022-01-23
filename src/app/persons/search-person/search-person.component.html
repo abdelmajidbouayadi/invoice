@@ -20,18 +20,28 @@
   .hover:active {
     background-color: lightgray;
   }
+  .ab-text{
+    color: rgb(6, 196, 243);
+    text-decoration: none;
+    padding: 6px;
+    cursor: pointer;
+  }
+  .ab-text:hover{
+    font-weight: bold;
+  }
 </style>
 <div class="ab-container nav flex-column">
   <input type="text" placeholder="search" class="form-control p-1 ps-2" #input (input)="onInput(input)" />
   <div  *ngFor="let person of printPersons"  >
     <li class="hover nav-item" (click)="onSend(person)">
       {{person?.name}}</li>
-    <div *ngIf="collectionSize > maxSize" style="float: right" >
+
+  </div>
+  <div *ngIf="collectionSize > maxSize" style="float: right" >
       <ngb-pagination  [collectionSize]="collectionSize"  [(page)]="page" (pageChange)="onPagination(page)"  [maxSize]="maxSize" [rotate]="false" [boundaryLinks]="false" size="sm"></ngb-pagination>
       </div>
-  </div>
   <div class="bg-light p-2">
-      <a (click)="onAppEdit()" class="hover text-primary" > <i class="bi bi-plus"></i> add new customer </a>
+      <a (click)="onAppEdit()" class=" ab-text"  > <i class="bi bi-plus"></i> add new customer </a>
       <div *ngIf="isEditMode">
         <app-edit-person (cancelSave)="onAdd($event)"></app-edit-person>
       </div>

@@ -1,5 +1,5 @@
 import { NgLocaleLocalization } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { InvoiceService } from 'src/app/services/invoice.service';
@@ -9,107 +9,104 @@ import { Product } from '../../products/product.model';
 @Component({
   selector: 'app-invoice-edit',
   templateUrl: './invoice-edit.component.html',
-  styleUrls: ['./invoice-edit.component.css']
+  styleUrls: ['./invoice-edit.component.css'],
 })
-export class InvoiceEditComponent implements OnInit {
-
-
-  form =  this.fb.group({
-    person:this.fb.group({
+export class InvoiceEditComponent implements OnInit, OnChanges {
+  isSearchPerson = false;
+  form = this.fb.group({
     _id: '',
+    person: '',
     name: '',
     address: '',
     city: '',
     country: '',
     postal: '',
-    }),
-    date:  new Date(Date.now()).toJSON().slice(0,10),
-    invoiceDueDate:null,
+    date: new Date(Date.now()).toJSON().slice(0, 19),
+    invoiceDueDate: null,
     num: null,
     rows: this.fb.array([]),
-    note: null
+    note: null,
   });
 
-  constructor(private fb:FormBuilder, private route: ActivatedRoute, private invoiceService: InvoiceService){
-
-  }
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private invoiceService: InvoiceService
+  ) {}
   ngOnInit(): void {
-    this.route.paramMap.subscribe(
-      params => {
-        if(params.get('id') ){
-          this.invoiceService.getInvoiceById(params.get('id'))?.subscribe({
-            next:(invoice: any) => this.setInvoice(invoice),
-            error:() => this.newInvoice(),
-          });
-        }
-        else this.newInvoice();
-      }
-    )
-
+    this.route.paramMap.subscribe((params) => {
+      if (params.get('id')) {
+        this.invoiceService.getInvoiceById(params.get('id'))?.subscribe({
+          next: (invoice: any) => this.setInvoice(invoice),
+          error: () => this.newInvoice(),
+        });
+      } else this.newInvoice();
+    });
   }
   get rows() {
-    return this.form.get("rows") as FormArray;
+    return this.form.get('rows') as FormArray;
   }
-  get rowsControls(){
+  get rowsControls() {
     return this.rows.controls as FormGroup[];
   }
-  addRow(product?:Product){
+  addRow(product?: Product) {
     const rowForm = this.fb.group({
-      quantity: ['',Validators.pattern(/[0:9]/)],
-      product:this.fb.group({
-        _id: '',
-        description: '',
-        price:0,
-      }),
-      price: ['',Validators.pattern(/[0:9]/)],
+      quantity: ['', Validators.pattern(/[0:9]/)],
+      product: '',
+      title: '',
+      description: '',
+      price: ['', Validators.pattern(/[0:9]/)],
     });
 
     //this code add product to the row
-    if(product) {
-        rowForm.get('product')?.patchValue(product);
-        rowForm.get('price')?.patchValue(product.sellingPrice);
-        }
-
+    if (product) {
+      rowForm.patchValue(product);
+      rowForm.get('product')?.patchValue(product._id);
+      rowForm.get('price')?.patchValue(product.sellingPrice);
+    }
 
     this.rows.push(rowForm);
   }
-  deleteRow(index: number){
+  deleteRow(index: number) {
     this.rows.removeAt(index);
   }
 
-  getTotal(){
+  getTotal() {
     let total = 0;
-    for(let row of this.rowsControls){
+    for (let row of this.rowsControls) {
       total += row.get('price')?.value * row.get('quantity')?.value;
     }
     return total;
   }
 
-  newInvoice(){
+  newInvoice() {
     this.addRow();
-    this.addRow()
+    this.addRow();
+    this.invoiceService.getInvoiceLastNum().subscribe({
+      next: (res) => {
+        this.form.get('num')?.patchValue(+res + 1);
+        console.log(res);
+      },
+    });
   }
-  setInvoice(invoice : Invoice){
+  setInvoice(invoice: Invoice) {
     this.form.patchValue(invoice);
-    for(let row of  invoice.rows)this.addRow();
+    for (let row of invoice.rows) this.addRow();
     this.rows.patchValue(invoice.rows);
   }
 
-
-
-  onSubmit(){
-    const invoice: Invoice ={
-      _id:'',
-      person: this.form.get('person')?.value || {},
-      num:  this.form.get('num')?.value || '',
-      date: this.form.get('date')?.value || null,
-      invoiceDueDate: this.form.get('invoiceDueDate')?.value || null,
-      rows: this.form.get('rows')?.value ||  [],
-      note: this.form.get('note')?.value || '',
-    };
-    // console.log(this.form);
-    console.log(invoice);
+  onSearchPerson($event: any) {
+    if ($event.person) {
+      this.form.patchValue($event.person);
+      this.form.get('person')?.patchValue($event.person._id);
+      this.isSearchPerson = false;
+    }
+  }
+  ngOnChanges() {
+    console.log('fff');
+  }
+  onSubmit() {
+    console.log(this.form.value);
     // this.invoiceService.saveInvoices(invoice);
   }
-
 }

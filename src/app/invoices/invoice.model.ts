@@ -4,12 +4,18 @@ export interface Rows {
   price: number;
   quantity: number;
   title: string;
-  product:Product;
+  description: string;
+  product:string; //id of product
 }
 export interface Invoice {
   _id: string;
-  person: Person;
-  num: string;
+  name: string;
+  address: string;
+  city: string;
+  country: string;
+  postal: string;
+  person: string;
+  num: number;
   date: Date;
   invoiceDueDate: Date;
   rows: Rows[];

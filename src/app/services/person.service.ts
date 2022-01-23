@@ -23,7 +23,7 @@ export class PersonService {
   }
 
   updatePersonById(person: Person, id: string){
-    return this.http.post(this.url + '/' + id, person).pipe(
+    return this.http.patch(this.url + '/' + id, person).pipe(
       map((res: any) => {
         this.persons.push(res);
         this.personChange.next([...this.persons]);
