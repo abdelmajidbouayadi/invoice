@@ -40,8 +40,11 @@
     <div class="row">
       <div class="col">
         <div>
-          <button class="btn btn-info text-white p-1 " style="float: right;">New Person</button>
+          <button class="btn btn-info text-white p-1 " style="float: right;" (click)="addPerson()" >New Person</button>
          <h1>Search Products</h1>
+        </div>
+        <div *ngIf="isEditMode">
+          <app-edit-person (cancelSave)="addPersonFinished()"></app-edit-person>
         </div>
 
         <input type="text" placeholder="search" class="form-control" #input (input)="onInput(input)" />
@@ -64,6 +67,7 @@
                 <td>{{person?.email}}</td>
                 <td>
                   Receivables
+                  <i class="bi bi-trash" (click)="onDelete(person)"></i>
                 </td>
               </tr>
             </tbody>

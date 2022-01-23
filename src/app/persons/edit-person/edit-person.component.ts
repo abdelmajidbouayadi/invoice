@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { EditResponse } from 'src/app/common/validators/edit-response.model';
 import { PersonService } from 'src/app/services/person.service';
@@ -10,10 +10,12 @@ import { Person } from '../person.model';
   styleUrls: ['./edit-person.component.css'],
 })
 export class EditPersonComponent implements OnInit {
-  @Output('cancel&save') event = new EventEmitter();
-  editResponse!: EditResponse;
+  @Input('person') personEdit!: Person;
+  @Output('cancelSave') event = new EventEmitter();
+  editResponse = new EditResponse();
+  isNewPerson =  false;
   form = this.fb.group({
-    id: '',
+    _id: '',
     name: ['', Validators.required],
     companyName: '',
     address: '',
@@ -27,14 +29,25 @@ export class EditPersonComponent implements OnInit {
   });
   constructor(private fb: FormBuilder, private personService: PersonService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (!this.personEdit)this.isNewPerson = true;
+    else {
+      this.form.patchValue(this.personEdit);
+      if(!this.personEdit.customer) this.form.get('personType')?.patchValue('vendor');
+      else if(!this.personEdit.vendor) this.form.get('personType')?.patchValue('vendor');
+      else this.form.get('personType')?.patchValue('vendor');
+    }
+  }
 
   onCancel() {
     this.event.emit({ cancel: true });
   }
 
   onSubmit() {
-    if (!this.form.valid) return;
+    // don't do anything if the form is invalid
+    if (!this.form.valid  || this.editResponse.save ) return ;
+    this.editResponse.save = true;
+    // change person
     const person: Person = this.form.value;
     const personType = this.form.get('personType')?.value;
     if (personType === 'customer') {
@@ -47,12 +60,16 @@ export class EditPersonComponent implements OnInit {
       person.customer = true;
       person.vendor = true;
     }
-
-    this.personService.savePerson(person).subscribe({
-      next: (res) => {
-        this.event.emit({ person: res });
+    // save or update person
+    let handleRes: any;
+    if(this.isNewPerson)  handleRes = this.personService.savePerson(person);
+    else  handleRes = this.personService.updatePersonById(person, person._id);
+   handleRes.subscribe({
+      next: (res :Person) => {
+          this.event.emit({ person: res });
       },
       error: () => {
+        this.editResponse.save = false;
         this.editResponse.error = true;
         setTimeout(()=> {this.editResponse.error = false},3000);
       },

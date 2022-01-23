@@ -14,6 +14,7 @@ export class ViewPersonsComponent implements OnInit {
   persons: Person[] = [];
   searchPersons: Person[] = [];
   printPersons:Person[] = [];
+  isEditMode = false;
   constructor(private personService : PersonService) { }
   page= 1;
   collectionSize = 0;
@@ -46,6 +47,16 @@ export class ViewPersonsComponent implements OnInit {
     this.onPagination(1);
   }
 
+  addPerson(){
+    this.isEditMode = true;
+  }
+  addPersonFinished(){
+    this.isEditMode = false;
+  }
+
+  onDelete(person: Person){
+    this.personService.deletePersonById(person._id).subscribe();
+  }
   ngOnDestroy(){
     this.subscription.unsubscribe();
   }

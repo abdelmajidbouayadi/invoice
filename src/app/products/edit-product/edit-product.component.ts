@@ -14,7 +14,7 @@ import { ProductService } from 'src/app/services/product.service';
 
 export class EditProductComponent implements OnInit {
   @Input('product') product!: Product;
-  editProductResponse: EditResponse = {};
+  editProductResponse= new EditResponse();
   @Output('SaveOrCancel') event = new EventEmitter();
   form = this.fb.group({
     _id: '',

@@ -150,7 +150,7 @@
         </table>
 
         <div class="bg-light p-3 mt-3 border-top">
-          <button type="submit" class="btn btn-info p-1 text-white" [disabled]="!form.valid">
+          <button type="submit" class="btn btn-info p-1 text-white" [disabled]="!form.valid || editResponse?.save">
             save
           </button>
           <button

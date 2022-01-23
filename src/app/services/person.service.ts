@@ -40,4 +40,15 @@ export class PersonService {
       },
     });
   }
+
+  deletePersonById(id: string) {
+    return this.http.delete(this.url + '/' + id).pipe(
+      map((res: any) => {
+        let index = this.persons.findIndex(person => person._id === id);
+        this.persons.splice(index, 1);
+        this.personChange.next([...this.persons]);
+        return res;
+      })
+    );
+  }
 }
