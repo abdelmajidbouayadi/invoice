@@ -9,6 +9,7 @@ import { Invoice } from '../invoices/invoice.model';
 export class InvoiceService {
   private invoices : Invoice[] =[];
   private invoicesUpdate = new Subject<Invoice[]>();
+  sendInvoice = new Subject<Invoice>();
   private url = 'http://localhost:3000/api/invoices';
   constructor(private http: HttpClient) { }
 
@@ -34,11 +35,7 @@ export class InvoiceService {
   }
 
   deleteInvoiceById(id: string){
-    this.http.delete(this.url + id).subscribe(
-      response => {
-        this.getInvoices();
-      }
-    )
+    return this.http.delete(this.url + '/' + id);
   }
 
 

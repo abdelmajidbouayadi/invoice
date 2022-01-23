@@ -19,6 +19,9 @@
   thead th:nth-child(4) {
     width: 20%;
   }
+  .hover:hover{
+    background-color: whitesmoke;
+  }
 </style>
 
 <div class="container">
@@ -47,9 +50,9 @@
       <div>
         <table class="table table-based">
           <thead>
-            <th>N</th>
             <th>description</th>
-            <th>price</th>
+            <th>Selling Price</th>
+            <th>Cost Price</th>
             <th></th>
           </thead>
           <tbody>
@@ -59,10 +62,13 @@
               </td>
             </tr>
             <ng-container *ngFor="let product of printProducts; let i = index">
-              <tr *ngIf="i !== productEditedIndex">
-                <td>{{ product?._id }}</td>
-                <td>{{ product?.description }}</td>
-                <td>{{ product?.price }}</td>
+              <tr *ngIf="i !== productEditedIndex" class="hover">
+                <td>
+                  <div class="fw-bold"> {{product?.title}}</div>
+                  <div > {{product?.description}}</div>
+                </td>
+                <td>{{product?.sellingPrice}}</td>
+                <td>{{product?.costPrice}}</td>
                 <td>
                   <button
                     class="btn btn-secondary btn-sm"

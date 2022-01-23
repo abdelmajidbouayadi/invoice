@@ -8,7 +8,6 @@ import { AppComponent } from './app.component';
 import { InvoicesComponent } from './invoices/invoices.component';
 import { SummaryPipe } from './summary.pipe';
 import { InputformatDirective } from './inputformat.directive';
-import { ZippyComponent } from './zippy/zippy.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
@@ -23,6 +22,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EditProductComponent } from './products/edit-product/edit-product.component';
 import { EditPersonComponent } from './persons/edit-person/edit-person.component';
 import { HeaderComponent } from './header/header.component';
+import { ViewComponent } from './invoices/invoice-view/view/view.component';
+import { ViewProductComponent } from './products/view-product/view-product.component';
+import { SearchPersonComponent } from './persons/search-person/search-person.component';
+import { ViewPersonsComponent } from './persons/view-persons/view-persons.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +33,6 @@ import { HeaderComponent } from './header/header.component';
     InvoicesComponent,
     SummaryPipe,
     InputformatDirective,
-    ZippyComponent,
     NavBarComponent,
     HomeComponent,
     NotFoundComponent,
@@ -42,7 +44,11 @@ import { HeaderComponent } from './header/header.component';
     SearchProductComponent,
     EditProductComponent,
     EditPersonComponent,
-    HeaderComponent
+    HeaderComponent,
+    ViewComponent,
+    ViewProductComponent,
+    SearchPersonComponent,
+    ViewPersonsComponent
   ],
   imports: [
     BrowserModule,

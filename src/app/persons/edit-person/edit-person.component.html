@@ -1,1 +1,168 @@
+<style>
+  .jw-modal {
+    /* modal container fixed across whole screen */
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 
+    /* z-index must be higher than .jw-modal-background */
+    z-index: 1000;
+
+    /* enables scrolling for tall modals */
+    overflow: auto;
+  }
+  .jw-modal-body {
+    background: #fff;
+
+    /* margin exposes part of the modal background */
+    margin-top: 10vh;
+    margin-left: 20vw;
+    margin-right: 20vw;
+  }
+
+  .jw-modal-background {
+    /* modal background fixed across whole screen */
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    /* semi-transparent black  */
+    background-color: #000;
+    opacity: 0.5;
+
+    /* z-index must be below .jw-modal and above everything else  */
+    z-index: 900;
+  }
+
+  .obligatory {
+    color: red;
+  }
+  .action {
+    float: right;
+    color: gray;
+  }
+  .action:hover {
+    color: black;
+  }
+</style>
+<div class="jw-modal">
+  <div class="jw-modal-body">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <!-- my form person  -->
+      <div>
+        <div class="p-4 bg-light fs-4">
+          New Person <i class="bi bi-x action" (click)="onCancel()"></i>
+        </div>
+
+        <!-- alert error  -->
+        <div *ngIf="editResponse?.error" class="alert alert-danger">
+          <p>person not saved try again </p>
+        </div>
+        <table>
+          <tr>
+            <td>
+              <label for="" class="p-2 obligatory">name*:</label>
+            </td>
+            <td>
+              <input type="text" class="form-control p-0 ps-2" formControlName='name'  required minlength="4"/>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="" class="p-2">Email:</label>
+            </td>
+            <td>
+              <input type="text" class="form-control p-0 ps-2" formControlName="companyName"/>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="" class="p-2 obligatory">Person Type*:</label>
+            </td>
+            <td>
+              <select type="text" placeholder="type of person" class="form-select p-0 ps-2" formControlName="personType"  required>
+                <option value="customer">customer</option>
+                <option value="vendor">vendor</option>
+                <option value="both">customer & vendor</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="" class="p-2">mobile phone:</label>
+            </td>
+            <td>
+              <input type="text" class="form-control p-0 ps-2" formControlName="mobilePhone" />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="" class="p-2">work phone:</label>
+            </td>
+            <td>
+              <input type="text" class="form-control p-0 ps-2"  formControlName="workPhone"/>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="" class="p-2">Email:</label>
+            </td>
+            <td>
+              <input type="text" class="form-control p-0 ps-2" formControlName="email"/>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="" class="p-2">Adress:</label>
+            </td>
+            <td>
+              <input type="text" class="form-control p-0 ps-2"  formControlName="address"/>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="" class="p-2">City:</label>
+            </td>
+            <td>
+              <input type="text" class="form-control p-0 ps-2"  formControlName="city"/>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="" class="p-2">Country:</label>
+            </td>
+            <td>
+              <input type="text" class="form-control p-0 ps-2" formControlName="country" />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="" class="p-2">Postal:</label>
+            </td>
+            <td>
+              <input type="text" class="form-control p-0 ps-2" formControlName="postal" />
+            </td>
+          </tr>
+        </table>
+
+        <div class="bg-light p-3 mt-3 border-top">
+          <button type="submit" class="btn btn-info p-1 text-white" [disabled]="!form.valid">
+            save
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary p-1 ms-2"
+            (click)="onCancel()"
+          >
+            cancel
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="jw-modal-background"></div>

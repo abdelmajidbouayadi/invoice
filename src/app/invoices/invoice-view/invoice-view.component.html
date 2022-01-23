@@ -39,13 +39,22 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-4 d-none d-lg-block">
+    <div
+      [ngClass]="{
+        'col-4 d-none d-lg-block': modeView,
+        col: !modeView
+      }"
+    >
       <div class="d-flex bd-highlight my-3">
         <div class="flex-grow-1 bd-highlight">
           <h1>All invoices</h1>
         </div>
         <div class="bd-highlight">
-          <button class="btn btn-info" style="color: white;" routerLink="/sales/invoices/new">
+          <button
+            class="btn btn-info"
+            style="color: white"
+            routerLink="/sales/invoices/new"
+          >
             <i class="bi bi-plus-lg"></i>
             new invoice
           </button>
@@ -61,24 +70,22 @@
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngFor="let invoice of invoices" >
-          <tr  [routerLink]="['/sales/invoices', invoice._id]">
-            <td>{{ invoice?.num }}</td>
-            <td class="text-overflow">{{ invoice?.person?.name }}</td>
-            <td class="text-overflow">{{invoice?.date}}</td>
-            <td class="text-overflow">
-               {{invoiceTotal(invoice)}}
-            </td>
-          </tr>
-        </ng-container>
+          <ng-container *ngFor="let invoice of invoices">
+            <tr (click)="viewInvoice(invoice)">
+              <td>{{ invoice?.num }}</td>
+              <td class="text-overflow">{{ invoice?.person?.name }}</td>
+              <td class="text-overflow">{{ invoice?.date }}</td>
+              <td class="text-overflow">
+                {{ invoiceTotal(invoice) }}
+              </td>
+            </tr>
+          </ng-container>
         </tbody>
       </table>
-
-
     </div>
 
-    <div class="col-8">
-
+    <div  *ngIf="modeView"  class="border-start border-dark col-lg-8 col-md-12">
+      <app-view-invoice [invoice]="invoiceView" (cancel)="cancelViewInvoice()" ></app-view-invoice>
     </div>
   </div>
 </div>

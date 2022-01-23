@@ -4,7 +4,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { InvoiceService } from 'src/app/services/invoice.service';
 import { Invoice } from '../invoice.model';
-import { Product } from '../product.model';
+import { Product } from '../../products/product.model';
 
 @Component({
   selector: 'app-invoice-edit',
@@ -67,7 +67,7 @@ export class InvoiceEditComponent implements OnInit {
     //this code add product to the row
     if(product) {
         rowForm.get('product')?.patchValue(product);
-        rowForm.get('price')?.patchValue(product.price);
+        rowForm.get('price')?.patchValue(product.sellingPrice);
         }
 
 

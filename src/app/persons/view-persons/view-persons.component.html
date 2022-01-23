@@ -1,0 +1,78 @@
+<style>
+  .hover {
+    padding-top: 4px;
+    border-bottom: 1px solid lightgray;
+    cursor: pointer;
+  }
+  .hover:hover {
+    background-color: whitesmoke;
+  }
+  .hover:active {
+    background-color: lightgray;
+  }
+
+  table {
+    /* table-layout: fixed; */
+    width: 100%;
+    /* border-collapse: collapse; */
+  }
+
+  thead th:nth-child(1) {
+    width: 20%;
+  }
+
+  thead th:nth-child(2) {
+    width: 20%;
+  }
+
+  thead th:nth-child(3) {
+    width: 20%;
+  }
+  thead th:nth-child(4) {
+    width: 20%;
+  }
+
+
+  </style>
+
+
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div>
+          <button class="btn btn-info text-white p-1 " style="float: right;">New Person</button>
+         <h1>Search Products</h1>
+        </div>
+
+        <input type="text" placeholder="search" class="form-control" #input (input)="onInput(input)" />
+        <div>
+          <table class="table ">
+            <thead>
+              <th>Name</th>
+              <th>Company Name</th>
+              <th>Work phone</th>
+              <th>Email</th>
+              <th>Receivables</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let person of printPersons" class="hover" >
+                <td>
+                   {{person?.name}}
+                </td>
+                <td>{{person?.companyName}}</td>
+                <td>{{person?.workPhone}}</td>
+                <td>{{person?.email}}</td>
+                <td>
+                  Receivables
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div *ngIf="collectionSize > maxSize" style="float: right" >
+          <ngb-pagination  [collectionSize]="collectionSize"  [(page)]="page" (pageChange)="onPagination(page)"  [maxSize]="maxSize" [rotate]="false" [boundaryLinks]="false" size="sm"></ngb-pagination>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>

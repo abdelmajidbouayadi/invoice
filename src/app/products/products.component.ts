@@ -1,8 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Product } from '../invoices/product.model';
+import { Product } from './product.model';
 import { ProductService } from '../services/product.service';
-import { EditProductResponse } from './edit-product/edit-product.component';
 
 @Component({
   selector: 'app-products',
@@ -71,7 +70,7 @@ export class ProductsComponent implements OnInit {
   onEditProductFinished($event: any) {
     //change the product edited in our component
     if ($event?.product)
-      this.productEdited = $event.product;
+      Object.assign(this.productEdited,$event.product);
     this.productEditedIndex = NaN;
   }
   onDelete(product: Product, index: number) {

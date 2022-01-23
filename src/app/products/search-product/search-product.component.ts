@@ -1,6 +1,6 @@
 import { Component, OnInit, Output,EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Product } from 'src/app/invoices/product.model';
+import { Product } from 'src/app/products/product.model';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({

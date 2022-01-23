@@ -32,16 +32,19 @@ thead th:nth-child(4) {
       <div>
         <table class="table table-striped ">
           <thead>
-            <th>N</th>
             <th>description</th>
-            <th>price</th>
+            <th>cost price</th>
+            <th>selling price</th>
             <th></th>
           </thead>
           <tbody>
             <tr *ngFor="let product of printProducts" >
-              <td>{{product?._id}}</td>
-              <td>{{product?.description}}</td>
-              <td>{{product?.price}}</td>
+              <td>
+                <div class="fw-bold"> {{product?.title}}</div>
+                <div > {{product?.description}}</div>
+              </td>
+              <td>{{product?.sellingPrice}}</td>
+              <td>{{product?.costPrice}}</td>
               <td>
                 <button class="btn btn-secondary btn-sm" (click)="onAdd(product)">
                   add

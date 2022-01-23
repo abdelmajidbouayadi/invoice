@@ -1,8 +1,9 @@
 import { Person } from '../persons/person.model';
-import { Product } from './product.model';
+import { Product } from '../products/product.model';
 export interface Rows {
   price: number;
   quantity: number;
+  title: string;
   product:Product;
 }
 export interface Invoice {
@@ -16,5 +17,6 @@ export interface Invoice {
 }
 
 export function getTotal(invoice:Invoice){
+  if(!invoice?.rows) return 0;
   return invoice.rows?.reduce((total,row)=> row?.price*row?.quantity ? total+= row?.price*row?.quantity : total,0)
 }

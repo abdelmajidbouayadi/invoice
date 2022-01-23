@@ -13,6 +13,9 @@ export class InvoiceViewComponent implements OnInit {
   constructor(private invoicesService:InvoiceService){}
   invoices :Invoice[]= [];
   subscription!: Subscription;
+  //if we are viewing invoice or not
+  modeView = false;
+  invoiceView!: Invoice;
    ngOnInit() {
     this.subscription = this.invoicesService.invoiceUpdate()
               .subscribe((res: Invoice[]) => {
@@ -22,6 +25,14 @@ export class InvoiceViewComponent implements OnInit {
   }
   invoiceTotal(invoice:Invoice ){
     return getTotal(invoice);
+  }
+
+  viewInvoice(invoice : Invoice){
+    this.modeView = true;
+    this.invoiceView = invoice;
+  }
+  cancelViewInvoice(){
+    this.modeView = false;
   }
 
   onDelete(invoice: Invoice){
