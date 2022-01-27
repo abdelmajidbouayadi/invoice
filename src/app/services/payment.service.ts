@@ -7,6 +7,7 @@ import { Payment, TypePayment } from '../payments/payment.model';
   providedIn: 'root',
 })
 export class PaymentService {
+
   updatePaymentById(payment: Payment, _id: string): any {
     throw new Error('Method not implemented.');
   }
@@ -40,10 +41,13 @@ export class PaymentService {
   }
 
   getPaymentsByType(type: TypePayment) {
-    this.http.get(this.url + '/' + type).subscribe((response: any) => {
+    this.http.post(this.url + '/search', {type}).subscribe((response: any) => {
       this.payments = response;
       this.paymentsChange.next(response);
     });
+  }
+  getPaymentsByPersonId(personId: string | null) {
+    return this.http.post(this.url + '/search', {person : personId })
   }
 
   change() {
