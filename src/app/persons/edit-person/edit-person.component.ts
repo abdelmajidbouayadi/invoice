@@ -34,8 +34,8 @@ export class EditPersonComponent implements OnInit {
     else {
       this.form.patchValue(this.personEdit);
       if(!this.personEdit.customer) this.form.get('personType')?.patchValue('vendor');
-      else if(!this.personEdit.vendor) this.form.get('personType')?.patchValue('vendor');
-      else this.form.get('personType')?.patchValue('vendor');
+      else if(!this.personEdit.vendor) this.form.get('personType')?.patchValue('customer');
+      else this.form.get('personType')?.patchValue('both');
     }
   }
 

@@ -13,3 +13,8 @@ export interface Person {
     companyName:string
 
 }
+
+export enum TypePerson{
+  customer= 'customer',
+  vendor = 'vendor'
+}

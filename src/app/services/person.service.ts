@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Subject } from 'rxjs';
-import { Person } from '../persons/person.model';
+import { Person, TypePerson } from '../persons/person.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PersonService {
+
   persons: Person[] = [];
   personChange = new Subject();
   private url = 'http://localhost:3000/api/persons';
@@ -34,6 +35,14 @@ export class PersonService {
 
   getPersons() {
     this.http.get(this.url).subscribe({
+      next: (res: any) => {
+        this.persons = res;
+        this.personChange.next(res);
+      },
+    });
+  }
+  getPersonsByType(typePerson: TypePerson) {
+    this.http.get(this.url+'/type/'+typePerson ).subscribe({
       next: (res: any) => {
         this.persons = res;
         this.personChange.next(res);

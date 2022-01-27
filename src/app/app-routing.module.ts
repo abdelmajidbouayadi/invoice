@@ -25,8 +25,13 @@ const routes: Routes = [
     ],
   },
   { path: 'inventory/products', component: ProductsComponent },
-  { path: 'sales/customers', component: ViewPersonsComponent },
-  { path: 'sales/customers/:id', component: ViewPersonComponent },
+  {
+    path: 'sales/customers',
+    children: [
+      { path: '', component: ViewPersonsComponent },
+      { path: ':id', component: ViewPersonComponent },
+    ],
+  },
   {
     path: 'sales/payments-received',
     component: PaymentsComponent,
