@@ -55,12 +55,14 @@
       <!-- my form payment  -->
       <div>
         <div class="p-4 bg-light fs-4">
-          {{isNewPayment ? 'New': 'Edit'}} payment  {{paymentType}} {{isNewPayment ? '' : paymentEdit?.num }} <i class="bi bi-x action" (click)="onCancel()"></i>
+          {{ isNewPayment ? "New" : "Edit" }} payment {{ paymentType }}
+          {{ isNewPayment ? "" : paymentEdit?.num }}
+          <i class="bi bi-x action" (click)="onCancel()"></i>
         </div>
 
         <!-- alert error  -->
         <div *ngIf="editResponse?.error" class="alert alert-danger">
-          <p>payment not saved try again </p>
+          <p>payment not saved try again</p>
         </div>
         <table>
           <tr>
@@ -68,7 +70,12 @@
               <label for="" class="p-2 obligatory">amount*:</label>
             </td>
             <td>
-              <input type="number" class="form-control p-0 ps-2" formControlName='amount'  required />
+              <input
+                type="number"
+                class="form-control p-0 ps-2"
+                formControlName="amount"
+                required
+              />
             </td>
           </tr>
           <tr>
@@ -76,7 +83,11 @@
               <label for="" class="p-2">Date:</label>
             </td>
             <td>
-              <input type="date" class="form-control p-0 ps-2" formControlName="date"/>
+              <input
+                type="date"
+                class="form-control p-0 ps-2"
+                formControlName="date"
+              />
             </td>
           </tr>
           <tr>
@@ -84,14 +95,24 @@
               <label for="" class="p-2">person:</label>
             </td>
             <td>
-              <app-search-person  (person)="onSearchPerson($event)"></app-search-person>
+              <app-search-person
+                (person)="onSearchPerson($event)"
+                [personType]="
+                  paymentType === 'received'
+                    ? enumTypePerson.customer
+                    : enumTypePerson.vendor
+                "
+              ></app-search-person>
             </td>
           </tr>
-
         </table>
 
         <div class="bg-light p-3 mt-3 border-top">
-          <button type="submit" class="btn btn-info p-1 text-white" [disabled]="!form.valid || editResponse?.save">
+          <button
+            type="submit"
+            class="btn btn-info p-1 text-white"
+            [disabled]="!form.valid || editResponse?.save"
+          >
             save
           </button>
           <button

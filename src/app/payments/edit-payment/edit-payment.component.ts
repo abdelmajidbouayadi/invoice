@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EditResponse } from 'src/app/common/validators/edit-response.model';
+import { TypePerson } from 'src/app/persons/person.model';
 import { PaymentService } from 'src/app/services/payment.service';
 import { Payment, TypePayment } from '../payment.model';
 
@@ -15,6 +16,7 @@ export class EditPaymentComponent implements OnInit {
   isNewPayment = false;
   paymentEdit!: Payment;
   paymentType = TypePayment.received;
+  enumTypePerson= TypePerson;
   form = this.fb.group({
     _id: '',
     amount: null,
@@ -54,7 +56,6 @@ export class EditPaymentComponent implements OnInit {
     if(this.isNewPayment)
       this.router.navigate(['../'], { relativeTo: this.route });
       else this.router.navigate(['../../'], { relativeTo: this.route });
-
   }
   onSearchPerson($event :any){
     if($event.person)
