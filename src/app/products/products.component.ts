@@ -24,7 +24,7 @@ export class ProductsComponent implements OnInit {
   constructor(private productService: ProductService) {}
   page = 1;
   collectionSize = 0;
-  maxSize = 10;
+  maxSize = 12;
   deleteError = false;
   ngOnInit(): void {
     this.subscription = this.productService.change().subscribe((res) => {

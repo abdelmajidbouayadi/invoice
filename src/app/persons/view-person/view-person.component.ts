@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Invoice } from 'src/app/invoices/invoice.model';
+import { getTotal, Invoice } from 'src/app/invoices/invoice.model';
 import { Payment } from 'src/app/payments/payment.model';
 import { InvoiceService } from 'src/app/services/invoice.service';
 import { PaymentService } from 'src/app/services/payment.service';
@@ -22,6 +22,7 @@ export class ViewPersonComponent implements OnInit {
     private route: ActivatedRoute,
   ) {}
   personViewed! : Person;
+  invoiceViewed!: Invoice;
   ngOnInit(): void {
     const personId = this.route.snapshot.paramMap.get('id');
     this.personService.getPersonsById(personId).subscribe({
@@ -54,5 +55,12 @@ export class ViewPersonComponent implements OnInit {
         console.log(err);
       }
     });
+  }
+
+  invoiceTotal(invoice:  Invoice){
+    return getTotal(invoice)
+  }
+  viewInvoice(invoice : Invoice){
+    this.invoiceViewed = invoice;
   }
 }

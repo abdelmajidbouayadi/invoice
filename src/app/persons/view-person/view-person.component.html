@@ -27,17 +27,18 @@
     position: relative;
     height: 71vh;
   }
-  .ab-bottom {
-  }
   .ab-body-3 {
     width: 50%;
     right: 0;
-    background-color: rgb(241, 235, 235);
   }
 </style>
 <div class="ab-container">
-  <div class="ab-header">information of client</div>
+  <!-- information client -->
+  <div class="ab-header">
+    <h1>{{ personViewed?.name }}</h1>
+  </div>
   <div class="ab-body ab-body-1">
+    <!-- print invoices  -->
     <table class="table">
       <thead>
         <tr>
@@ -47,14 +48,17 @@
         </tr>
       </thead>
       <tbody class="bg-white">
-        <tr>
-          <td>1</td>
-          <td>22/01/2022</td>
-          <td>62541</td>
-        </tr>
+        <ng-container *ngFor="let invoice of personInvoices">
+          <tr (click)="viewInvoice(invoice)">
+            <td>{{ invoice?.num }}</td>
+            <td>{{ invoice?.date | date }}</td>
+            <td>{{ invoiceTotal(invoice) }}</td>
+          </tr>
+        </ng-container>
       </tbody>
     </table>
   </div>
+
   <div class="ab-body ab-body-2">
     <div class="inside-body-2">
       <table class="table">
@@ -64,12 +68,27 @@
             <th>Amount</th>
           </tr>
         </thead>
+        <tbody class="bg-white">
+          <ng-container *ngFor="let payment of personPayments">
+            <tr>
+              <td>{{ payment?.date | date }}</td>
+              <td>{{ payment?.amount }}</td>
+            </tr>
+          </ng-container>
+        </tbody>
       </table>
     </div>
-    <div class="ab-bottom" style="top: 555px;">
+    <div class="ab-bottom" style="top: 555px">
       <input type="text" class="form-control" />
     </div>
   </div>
 
-  <div class="ab-body ab-body-3">part3</div>
+  <div class="ab-body ab-body-3">
+    <div *ngIf="!invoiceViewed">
+      <h1>Select Invoice</h1>
+    </div>
+    <div *ngIf="invoiceViewed">
+      <app-view-invoice [invoice]="invoiceViewed"></app-view-invoice>
+    </div>
+  </div>
 </div>
