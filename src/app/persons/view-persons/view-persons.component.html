@@ -31,52 +31,73 @@
   thead th:nth-child(4) {
     width: 20%;
   }
+</style>
 
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div>
+        <button
+          class="btn btn-info text-white p-1"
+          style="float: right"
+          (click)="addPerson()"
+        >
+          New Person
+        </button>
+        <h1>Search Products</h1>
+      </div>
+      <div *ngIf="isEditMode">
+        <app-edit-person (cancelSave)="addPersonFinished()"></app-edit-person>
+      </div>
 
-  </style>
-
-
-  <div class="container">
-    <div class="row">
-      <div class="col">
-        <div>
-          <button class="btn btn-info text-white p-1 " style="float: right;" (click)="addPerson()" >New Person</button>
-         <h1>Search Products</h1>
+      <input
+        type="text"
+        placeholder="search"
+        class="form-control"
+        #input
+        (input)="onInput(input)"
+      />
+      <div>
+        <table class="table">
+          <thead>
+            <th>Name</th>
+            <th>Company Name</th>
+            <th>Work phone</th>
+            <th>Email</th>
+            <th>Receivables</th>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let person of printPersons"
+              class="hover"
+              [routerLink]="[person?._id]"
+            >
+              <td>
+                {{ person?.name }}
+              </td>
+              <td>{{ person?.companyName }}</td>
+              <td>{{ person?.workPhone }}</td>
+              <td>{{ person?.email }}</td>
+              <td>
+                Receivables
+                <i class="bi bi-trash" (click)="onDelete(person)"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div *ngIf="collectionSize > maxSize" style="float: right">
+          <ngb-pagination
+            [collectionSize]="collectionSize"
+            [(page)]="page"
+            (pageChange)="onPagination(page)"
+            [maxSize]="maxSize"
+            [pageSize]="maxSize"
+            [rotate]="false"
+            [boundaryLinks]="false"
+            size="sm"
+          ></ngb-pagination>
         </div>
-        <div *ngIf="isEditMode">
-          <app-edit-person (cancelSave)="addPersonFinished()"></app-edit-person>
-        </div>
-
-        <input type="text" placeholder="search" class="form-control" #input (input)="onInput(input)" />
-        <div>
-          <table class="table ">
-            <thead>
-              <th>Name</th>
-              <th>Company Name</th>
-              <th>Work phone</th>
-              <th>Email</th>
-              <th>Receivables</th>
-            </thead>
-            <tbody>
-              <tr *ngFor="let person of printPersons" class="hover" [routerLink]="[person?._id]" >
-                <td>
-                   {{person?.name}}
-                </td>
-                <td>{{person?.companyName}}</td>
-                <td>{{person?.workPhone}}</td>
-                <td>{{person?.email}}</td>
-                <td>
-                  Receivables
-                  <i class="bi bi-trash" (click)="onDelete(person)"></i>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div *ngIf="collectionSize > maxSize" style="float: right" >
-          <ngb-pagination  [collectionSize]="collectionSize"  [(page)]="page" (pageChange)="onPagination(page)"  [maxSize]="maxSize" [rotate]="false" [boundaryLinks]="false" size="sm"></ngb-pagination>
-          </div>
-        </div>
-
       </div>
     </div>
   </div>
+</div>
