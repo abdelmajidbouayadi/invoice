@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { InvoiceService } from 'src/app/services/invoice.service';
-import { Invoice } from '../invoice.model';
+import { Invoice, TypeInvoice } from '../invoice.model';
 import { Product } from '../../products/product.model';
+import { TypePerson } from 'src/app/persons/person.model';
 
 @Component({
   selector: 'app-invoice-edit',
@@ -12,6 +13,7 @@ import { Product } from '../../products/product.model';
 })
 export class InvoiceEditComponent implements OnInit {
   isSearchPerson = false;
+  enumTypePerson = TypePerson;
   form = this.fb.group({
     _id: '',
     person: '',
@@ -27,6 +29,8 @@ export class InvoiceEditComponent implements OnInit {
     rows: this.fb.array([]),
     note: null,
   });
+  invoiceType =  TypeInvoice.invoice;
+  isNewInvoice = false;
 
   constructor(
     private fb: FormBuilder,
@@ -34,6 +38,7 @@ export class InvoiceEditComponent implements OnInit {
     private invoiceService: InvoiceService
   ) {}
   ngOnInit(): void {
+    this.invoiceType = this.route.pathFromRoot.toString().includes("sales") ? TypeInvoice.invoice : TypeInvoice.bill;
     this.route.paramMap.subscribe((params) => {
       if (params.get('id')) {
         this.invoiceService.getInvoiceById(params.get('id'))?.subscribe({
@@ -80,20 +85,22 @@ export class InvoiceEditComponent implements OnInit {
   }
 
   newInvoice() {
+    this.isNewInvoice = true;
     this.addRow();
-    this.addRow();
-    this.invoiceService.getInvoiceLastNum().subscribe({
+    this.form.get('type')?.patchValue(this.invoiceType)
+    this.invoiceService.getInvoiceLastNum(this.invoiceType).subscribe({
       next: (res) => {
         this.form.get('num')?.patchValue(+res + 1);
       },
     });
+
   }
   setInvoice(invoice: Invoice) {
     this.form.patchValue(invoice);
-    this.form.get('date')?.patchValue(invoice.date.toString().slice(0, 19));
+    this.form.get('date')?.patchValue(invoice.date.toString().slice(0, 10));
     this.form
       .get('invoiceDueDate')
-      ?.patchValue(invoice.invoiceDueDate.toString().slice(0, 19));
+      ?.patchValue(invoice.invoiceDueDate?.toString().slice(0, 10));
     for (let row of invoice.rows) this.addRow();
     this.rows.patchValue(invoice.rows);
   }
@@ -116,11 +123,15 @@ export class InvoiceEditComponent implements OnInit {
 
   onSubmit() {
     console.log(this.form.value);
-    this.invoiceService.saveInvoice(this.form.value).subscribe({
-      next: (res) => {
+    let handleRes: any;
+    if(this.isNewInvoice)this.invoiceService.saveInvoice(this.form.value);
+     else this.invoiceService.updateInvoice(this.form.value, this.form.get('_id')?.value);
+
+     handleRes.subscribe({
+      next: (res:any) => {
         console.log(res);
       },
-      error: (err) => {
+      error: (err :any) => {
         console.log(err);
       },
     });

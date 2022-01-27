@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { InvoiceService } from 'src/app/services/invoice.service';
-import { getTotal, Invoice } from '../invoice.model';
+import { getTotal, Invoice, TypeInvoice } from '../invoice.model';
 
 @Component({
   selector: 'app-invoice-view',
@@ -10,18 +10,20 @@ import { getTotal, Invoice } from '../invoice.model';
   styleUrls: ['./invoice-view.component.css']
 })
 export class InvoiceViewComponent implements OnInit {
-  constructor(private invoicesService:InvoiceService){}
+  invoiceType = TypeInvoice.invoice;
+  constructor(private invoicesService:InvoiceService, private route: ActivatedRoute){}
   invoices :Invoice[]= [];
   subscription!: Subscription;
   //if we are viewing invoice or not
   modeView = false;
   invoiceView!: Invoice;
    ngOnInit() {
+    this.invoiceType = this.route.pathFromRoot.toString().includes("sales") ? TypeInvoice.invoice : TypeInvoice.bill;
     this.subscription = this.invoicesService.invoiceUpdate()
               .subscribe((res: Invoice[]) => {
                 this.invoices= res;
               });
-    this.invoicesService.getInvoices();
+    this.invoicesService.getInvoicesByType(this.invoiceType);
   }
   invoiceTotal(invoice:Invoice ){
     return getTotal(invoice);

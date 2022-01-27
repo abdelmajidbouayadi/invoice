@@ -66,7 +66,7 @@
       <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
         <div class="row px-4 py-5 bg-info text-white">
           <div class="col">
-            <h1><i class="bi bi-file-text"></i> New Invoice</h1>
+            <h1><i class="bi bi-file-text"></i> {{isNewInvoice ? 'New' : 'Edit'}} {{invoiceType}}</h1>
           </div>
         </div>
 
@@ -74,9 +74,9 @@
         <!-- select a customer -->
         <div class="row bg-light ps-3 py-3">
               <div class="col-3">
-               Customer name: </div>
+               {{invoiceType === 'invoice' ? 'Customer' : 'Vendor'}} name: </div>
               <div class="col-6" style="position: relative;">
-                  <app-search-person (person)="onSearchPerson($event)"></app-search-person>
+                  <app-search-person (person)="onSearchPerson($event)" [personType]="invoiceType === 'invoice'? enumTypePerson.customer : enumTypePerson.vendor"></app-search-person>
               </div>
 
         </div>
@@ -84,7 +84,7 @@
           <!-- Bill TO------------------------------- -->
           <div class="col-7 p-0">
             <div >
-              <p class="word-key-start m-0">Bill to:</p>
+              <p class="word-key-start m-0">{{invoiceType === 'invoice' ? 'Bill to' : 'Invoice from'}}:</p>
               <input type="text" placeholder="Company Name" class="input" formControlName='name' />
               <input type="text" placeholder="Address" class="input" formControlName='address' />
               <input type="text" placeholder="City" class="input" formControlName='city' />
@@ -96,16 +96,16 @@
           <!-- invoice N ------------------------------------------- -->
           <div class="col-5">
             <div class="mb-2">
-              <p class="word-key-end m-0">invoice N:</p>
+              <p class="word-key-end m-0">{{invoiceType}} N:</p>
               <input [attr.disabled]="true" type="number" placeholder="0000" class="input right disabled" formControlName="num"    />
             </div>
             <div class="mb-2">
               <p class="word-key-end m-0">Date:</p>
-              <input type="datetime-local" placeholder="insert date" class="input right" formControlName="date" />
+              <input type="date"  class="input right" formControlName="date" />
             </div>
             <div class="mb-2">
-              <p class="word-key-end m-0">Invoice due Date:</p>
-              <input type="datetime-local" placeholder="Due date" class="input right" formControlName="invoiceDueDate" />
+              <p class="word-key-end m-0">{{invoiceType}} due Date:</p>
+              <input type="date"  class="input right" formControlName="invoiceDueDate" />
             </div>
           </div>
         </div>

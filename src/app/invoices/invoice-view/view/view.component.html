@@ -75,7 +75,7 @@
 
 <!-- header  -->
 <div class="d-flex">
-  <h4 class="flex-grow-1">Invoice Num:{{ invoice?.num }}</h4>
+  <h4 class="flex-grow-1">{{invoice?.type}} Num:{{ invoice?.num }}</h4>
   <button class="btn cancel" (click)="onCancel()">
     <i class="bi bi-x-lg"></i>
   </button>
@@ -98,36 +98,36 @@
   <div class="container-fluid">
     <div class="row px-4 py-5 bg-info text-white">
       <div class="col">
-        <h1><i class="bi bi-file-text"></i> Invoice</h1>
+        <h1><i class="bi bi-file-text"></i> {{invoice?.type}}</h1>
       </div>
     </div>
 
     <div class="row bg-light pb-4 ps-4">
-      <!-- Bill TO------------------------------- -->
+      <!-- Bill TO--- Invoice from---------------------------- -->
       <div class="col-8 p-0">
         <div>
-          <p class="word-key-start m-0">Bill to:</p>
-          <p>{{ invoice?.name }}</p>
-          <p>{{ invoice?.address }}</p>
-          <p>{{ invoice?.city }}</p>
-          <p>{{ invoice?.country }}</p>
-          <p>{{ invoice?.postal }}</p>
+          <p class="word-key-start m-0">{{invoice?.type === 'invoice' ? 'Bill to': 'Invoice from'}}</p>
+          <div>{{ invoice?.name }}</div>
+          <div>{{ invoice?.address }}</div>
+          <div>{{ invoice?.city }}</div>
+          <div>{{ invoice?.country }}</div>
+          <div>{{ invoice?.postal }}</div>
         </div>
       </div>
 
       <!-- invoice N ------------------------------------------- -->
       <div class="col-4">
         <div class="mb-2">
-          <p class="word-key-end m-0">invoice N:</p>
-          <p>{{ invoice?.num }}</p>
+          <div class="word-key-end ">{{invoice?.type}} N:</div>
+          <div class="right">{{ invoice?.num }}</div>
         </div>
         <div class="mb-2">
-          <p class="word-key-end m-0">Date:</p>
-          <p>{{ invoice?.date }}</p>
+          <div class="word-key-end">Date:</div>
+          <div class="right ">{{ invoice?.date | date }}</div>
         </div>
         <div class="mb-2">
-          <p class="word-key-end m-0">Invoice due Date:</p>
-          <p>{{ invoice?.invoiceDueDate }}</p>
+          <div class="word-key-end ">Invoice due Date:</div>
+          <div class="right ">{{ invoice?.invoiceDueDate | date }}</div>
         </div>
       </div>
     </div>

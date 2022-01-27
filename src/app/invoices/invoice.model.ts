@@ -20,9 +20,16 @@ export interface Invoice {
   invoiceDueDate: Date;
   rows: Rows[];
   note: string;
+  type: TypeInvoice;
 }
 
 export function getTotal(invoice:Invoice){
   if(!invoice?.rows) return 0;
   return invoice.rows?.reduce((total,row)=> row?.price*row?.quantity ? total+= row?.price*row?.quantity : total,0)
+}
+
+export enum TypeInvoice{
+  bill = "bill",
+  invoice = "invoice"
+
 }

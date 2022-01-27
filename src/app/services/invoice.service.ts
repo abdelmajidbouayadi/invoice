@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Subject } from 'rxjs';
-import { Invoice } from '../invoices/invoice.model';
+import { Invoice, TypeInvoice } from '../invoices/invoice.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InvoiceService {
+
   private invoices: Invoice[] = [];
   private invoicesChange = new Subject<Invoice[]>();
   sendInvoice = new Subject<Invoice>();
@@ -22,6 +23,12 @@ export class InvoiceService {
 
   getInvoices() {
     this.http.get(this.url).subscribe((response: any) => {
+      this.invoices = response;
+      this.invoicesChange.next(response);
+    });
+  }
+  getInvoicesByType(invoiceType: TypeInvoice) {
+    this.http.get(this.url+'/type/' + invoiceType).subscribe((response: any) => {
       this.invoices = response;
       this.invoicesChange.next(response);
     });
@@ -42,7 +49,7 @@ export class InvoiceService {
     return this.http.delete(this.url + '/' + id);
   }
 
-  getInvoiceLastNum() {
-    return this.http.get(this.url + '/lastnum').pipe(map((x: any) => x.num));
+  getInvoiceLastNum(type : TypeInvoice) {
+    return this.http.get(this.url + '/lastnum/type/'+ type);
   }
 }

@@ -48,6 +48,22 @@ const routes: Routes = [
       { path: ':id/edit', component: EditPaymentComponent },
     ],
   },
+  {
+    path: 'purchases/vendors',
+    children: [
+      { path: '', component: ViewPersonsComponent },
+      { path: ':id', component: ViewPersonComponent },
+    ],
+  },
+  {
+    path: 'purchases/bills',
+    children: [
+      { path: ':id/edit', component: InvoiceEditComponent },
+      { path: 'new', component: InvoiceEditComponent },
+      { path: ':id', component: InvoiceViewComponent },
+      { path: '', component: InvoiceViewComponent },
+    ],
+  },
 
   { path: '**', component: NotFoundComponent },
 ];

@@ -47,16 +47,16 @@
     >
       <div class="d-flex bd-highlight my-3">
         <div class="flex-grow-1 bd-highlight">
-          <h1>All invoices</h1>
+          <h1>All {{invoiceType}}s</h1>
         </div>
         <div class="bd-highlight">
           <button
             class="btn btn-info"
             style="color: white"
-            routerLink="/sales/invoices/new"
+            routerLink="new"
           >
             <i class="bi bi-plus-lg"></i>
-            new invoice
+            new {{invoiceType}}
           </button>
         </div>
       </div>
