@@ -1,0 +1,109 @@
+<style>
+  .jw-modal {
+    /* modal container fixed across whole screen */
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    /* z-index must be higher than .jw-modal-background */
+    z-index: 1000;
+
+    /* enables scrolling for tall modals */
+    overflow: auto;
+  }
+  .jw-modal-body {
+    background: #fff;
+
+    /* margin exposes part of the modal background */
+    margin-top: 10vh;
+    margin-left: 20vw;
+    margin-right: 20vw;
+  }
+
+  .jw-modal-background {
+    /* modal background fixed across whole screen */
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    /* semi-transparent black  */
+    background-color: #000;
+    opacity: 0.5;
+
+    /* z-index must be below .jw-modal and above everything else  */
+    z-index: 900;
+  }
+
+  .obligatory {
+    color: red;
+  }
+  .action {
+    float: right;
+    color: gray;
+  }
+  .action:hover {
+    color: black;
+  }
+</style>
+<div class="jw-modal">
+  <div class="jw-modal-body">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <!-- my form payment  -->
+      <div>
+        <div class="p-4 bg-light fs-4">
+          {{isNewPayment ? 'New': 'Edit'}} payment  {{paymentType}} {{isNewPayment ? '' : paymentEdit?.num }} <i class="bi bi-x action" (click)="onCancel()"></i>
+        </div>
+
+        <!-- alert error  -->
+        <div *ngIf="editResponse?.error" class="alert alert-danger">
+          <p>payment not saved try again </p>
+        </div>
+        <table>
+          <tr>
+            <td>
+              <label for="" class="p-2 obligatory">amount*:</label>
+            </td>
+            <td>
+              <input type="number" class="form-control p-0 ps-2" formControlName='amount'  required />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="" class="p-2">Date:</label>
+            </td>
+            <td>
+              <input type="date" class="form-control p-0 ps-2" formControlName="date"/>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="" class="p-2">person:</label>
+            </td>
+            <td>
+              <app-search-person  (person)="onSearchPerson($event)"></app-search-person>
+            </td>
+          </tr>
+
+        </table>
+
+        <div class="bg-light p-3 mt-3 border-top">
+          <button type="submit" class="btn btn-info p-1 text-white" [disabled]="!form.valid || editResponse?.save">
+            save
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary p-1 ms-2"
+            (click)="onCancel()"
+          >
+            cancel
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="jw-modal-background"></div>

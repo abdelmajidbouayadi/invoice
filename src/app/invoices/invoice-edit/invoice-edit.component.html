@@ -72,16 +72,11 @@
 
 
         <!-- select a customer -->
-        <div class="row bg-light ps-3 pt-3">
+        <div class="row bg-light ps-3 py-3">
               <div class="col-3">
-               <p class="py-2">Customer name:</p> </div>
+               Customer name: </div>
               <div class="col-6" style="position: relative;">
-                <p class="form-control text-secondary p-1 hover" (click)="isSearchPerson=!isSearchPerson">{{form.get('name')?.value ? form.get('name')?.value: 'select customer'}}
-                  <i class="bi " [ngClass]="{'bi-chevron-right': !isSearchPerson, 'bi-chevron-down': isSearchPerson}" style="float: right;"></i>
-                </p>
-                <div  *ngIf="isSearchPerson">
                   <app-search-person (person)="onSearchPerson($event)"></app-search-person>
-                </div>
               </div>
 
         </div>

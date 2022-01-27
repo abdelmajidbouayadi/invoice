@@ -1,5 +1,4 @@
-import { NgLocaleLocalization } from '@angular/common';
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { InvoiceService } from 'src/app/services/invoice.service';
@@ -11,7 +10,7 @@ import { Product } from '../../products/product.model';
   templateUrl: './invoice-edit.component.html',
   styleUrls: ['./invoice-edit.component.css'],
 })
-export class InvoiceEditComponent implements OnInit, OnChanges {
+export class InvoiceEditComponent implements OnInit {
   isSearchPerson = false;
   form = this.fb.group({
     _id: '',
@@ -19,6 +18,7 @@ export class InvoiceEditComponent implements OnInit, OnChanges {
     name: '',
     address: '',
     city: '',
+    type: 'invoice',
     country: '',
     postal: '',
     date: new Date(Date.now()).toJSON().slice(0, 19),
@@ -85,28 +85,44 @@ export class InvoiceEditComponent implements OnInit, OnChanges {
     this.invoiceService.getInvoiceLastNum().subscribe({
       next: (res) => {
         this.form.get('num')?.patchValue(+res + 1);
-        console.log(res);
       },
     });
   }
   setInvoice(invoice: Invoice) {
     this.form.patchValue(invoice);
+    this.form.get('date')?.patchValue(invoice.date.toString().slice(0, 19));
+    this.form
+      .get('invoiceDueDate')
+      ?.patchValue(invoice.invoiceDueDate.toString().slice(0, 19));
     for (let row of invoice.rows) this.addRow();
     this.rows.patchValue(invoice.rows);
   }
 
   onSearchPerson($event: any) {
-    if ($event.person) {
-      this.form.patchValue($event.person);
-      this.form.get('person')?.patchValue($event.person._id);
+    const person = $event.person;
+    if (person) {
+      const addPerson = {
+        name: person.name,
+        address: person.address,
+        city: person.city,
+        country: person.country,
+        postal: person.postal,
+        person: person._id
+      };
+      this.form.patchValue(addPerson);
       this.isSearchPerson = false;
     }
   }
-  ngOnChanges() {
-    console.log('fff');
-  }
+
   onSubmit() {
     console.log(this.form.value);
-    // this.invoiceService.saveInvoices(invoice);
+    this.invoiceService.saveInvoice(this.form.value).subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 }

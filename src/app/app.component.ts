@@ -7,7 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  onTato(event: string){
-   console.log(event.length);
-  }
+
 }

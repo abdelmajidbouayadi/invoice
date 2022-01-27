@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Product } from './product.model';
 import { ProductService } from '../services/product.service';
@@ -9,7 +9,6 @@ import { ProductService } from '../services/product.service';
   styleUrls: ['./products.component.css'],
 })
 export class ProductsComponent implements OnInit {
-  @Output('product') clickedProduct = new EventEmitter<Product>();
   subscription!: Subscription;
   products: Product[] = [];
   //view products

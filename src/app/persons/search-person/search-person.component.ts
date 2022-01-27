@@ -15,6 +15,8 @@ export class SearchPersonComponent implements OnInit {
   searchPersons: Person[] = [];
   printPersons:Person[] = [];
   isEditMode = false;
+  personSelected!:Person;
+  isSearchPerson = false;
   constructor(private personService : PersonService) { }
   page= 1;
   collectionSize = 0;
@@ -47,7 +49,9 @@ export class SearchPersonComponent implements OnInit {
     this.onPagination(1);
   }
   onSend(person:Person){
-    this.event.emit({person})
+    this.personSelected = person;
+    this.event.emit({person});
+    this.isSearchPerson = false;
   }
   onAdd($event: any){
     this.isEditMode = false;

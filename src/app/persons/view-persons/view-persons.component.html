@@ -58,7 +58,7 @@
               <th>Receivables</th>
             </thead>
             <tbody>
-              <tr *ngFor="let person of printPersons" class="hover" >
+              <tr *ngFor="let person of printPersons" class="hover" [routerLink]="[person?._id]" >
                 <td>
                    {{person?.name}}
                 </td>

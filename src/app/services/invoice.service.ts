@@ -4,46 +4,45 @@ import { map, Subject } from 'rxjs';
 import { Invoice } from '../invoices/invoice.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class InvoiceService {
-  private invoices : Invoice[] =[];
+  private invoices: Invoice[] = [];
   private invoicesChange = new Subject<Invoice[]>();
   sendInvoice = new Subject<Invoice>();
   private url = 'http://localhost:3000/api/invoices';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  saveInvoice(invoice: Invoice){
-    return this.http.post(this.url, invoice)
+  saveInvoice(invoice: Invoice) {
+    return this.http.post(this.url, invoice);
   }
-  updateInvoice(invoice: Invoice, id:string){
-    return this.http.patch(this.url+'/'+id, invoice)
+  updateInvoice(invoice: Invoice, id: string) {
+    return this.http.patch(this.url + '/' + id, invoice);
   }
 
-  getInvoices(){
-    this.http.get(this.url)
-          .subscribe((response: any) => {
-            this.invoices = response;
-            this.invoicesChange.next(response);
-          });
-
+  getInvoices() {
+    this.http.get(this.url).subscribe((response: any) => {
+      this.invoices = response;
+      this.invoicesChange.next(response);
+    });
   }
-  invoiceUpdate(){
+  invoiceUpdate() {
     return this.invoicesChange.asObservable();
   }
 
-  getInvoiceById(id: string|null){
-      if(!id) return null;
-      return  this.http.get(this.url + '/' + id );
+  getInvoiceById(id: string | null) {
+    if (!id) return null;
+    return this.http.get(this.url + '/' + id);
+  }
+  getInvoicesByPersonId(personId: string | null) {
+    return this.http.post(this.url + '/search', { person : personId });
   }
 
-  deleteInvoiceById(id: string){
+  deleteInvoiceById(id: string) {
     return this.http.delete(this.url + '/' + id);
   }
 
-  getInvoiceLastNum(){
+  getInvoiceLastNum() {
     return this.http.get(this.url + '/lastnum').pipe(map((x: any) => x.num));
   }
-
-
 }

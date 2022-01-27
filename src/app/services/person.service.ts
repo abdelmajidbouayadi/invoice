@@ -22,7 +22,7 @@ export class PersonService {
     );
   }
 
-  updatePersonById(person: Person, id: string){
+  updatePersonById(person: Person, id: string) {
     return this.http.patch(this.url + '/' + id, person).pipe(
       map((res: any) => {
         this.persons.push(res);
@@ -40,11 +40,13 @@ export class PersonService {
       },
     });
   }
-
+  getPersonsById(id: string | null) {
+    return this.http.get(this.url + '/' + id );
+  }
   deletePersonById(id: string) {
     return this.http.delete(this.url + '/' + id).pipe(
       map((res: any) => {
-        let index = this.persons.findIndex(person => person._id === id);
+        let index = this.persons.findIndex((person) => person._id === id);
         this.persons.splice(index, 1);
         this.personChange.next([...this.persons]);
         return res;

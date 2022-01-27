@@ -5,7 +5,10 @@ import { InvoiceEditComponent } from './invoices/invoice-edit/invoice-edit.compo
 import { InvoiceViewComponent } from './invoices/invoice-view/invoice-view.component';
 import { InvoicesComponent } from './invoices/invoices.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { EditPaymentComponent } from './payments/edit-payment/edit-payment.component';
+import { PaymentsComponent } from './payments/payments.component';
 import { EditPersonComponent } from './persons/edit-person/edit-person.component';
+import { ViewPersonComponent } from './persons/view-person/view-person.component';
 import { ViewPersonsComponent } from './persons/view-persons/view-persons.component';
 import { ProductsComponent } from './products/products.component';
 
@@ -23,6 +26,23 @@ const routes: Routes = [
   },
   { path: 'inventory/products', component: ProductsComponent },
   { path: 'sales/customers', component: ViewPersonsComponent },
+  { path: 'sales/customers/:id', component: ViewPersonComponent },
+  {
+    path: 'sales/payments-received',
+    component: PaymentsComponent,
+    children: [
+      { path: 'new', component: EditPaymentComponent },
+      { path: ':id/edit', component: EditPaymentComponent },
+    ],
+  },
+  {
+    path: 'purchases/payments-made',
+    component: PaymentsComponent,
+    children: [
+      { path: 'new', component: EditPaymentComponent },
+      { path: ':id/edit', component: EditPaymentComponent },
+    ],
+  },
 
   { path: '**', component: NotFoundComponent },
 ];

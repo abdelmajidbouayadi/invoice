@@ -26,6 +26,9 @@ import { ViewComponent } from './invoices/invoice-view/view/view.component';
 import { ViewProductComponent } from './products/view-product/view-product.component';
 import { SearchPersonComponent } from './persons/search-person/search-person.component';
 import { ViewPersonsComponent } from './persons/view-persons/view-persons.component';
+import { PaymentsComponent } from './payments/payments.component';
+import { EditPaymentComponent } from './payments/edit-payment/edit-payment.component';
+import { ViewPersonComponent } from './persons/view-person/view-person.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +51,10 @@ import { ViewPersonsComponent } from './persons/view-persons/view-persons.compon
     ViewComponent,
     ViewProductComponent,
     SearchPersonComponent,
-    ViewPersonsComponent
+    ViewPersonsComponent,
+    PaymentsComponent,
+    EditPaymentComponent,
+    ViewPersonComponent
   ],
   imports: [
     BrowserModule,

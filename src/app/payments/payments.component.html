@@ -1,0 +1,122 @@
+<style>
+  table {
+    /* table-layout: fixed; */
+    width: 100%;
+    /* border-collapse: collapse; */
+  }
+
+  thead th:nth-child(1) {
+    width: 5%;
+  }
+
+  thead th:nth-child(2) {
+    width: 20%;
+  }
+
+  thead th:nth-child(3) {
+    width: 20%;
+  }
+  thead th:nth-child(4) {
+    width: 20%;
+  }
+  thead th:nth-child(4) {
+    width: 15%;
+  }
+  .hover:hover {
+    background-color: whitesmoke;
+  }
+</style>
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <!-- head -->
+      <h1>Search Payments {{paymentType === 'received' ? 'Received' : 'Made' }} </h1>
+      <div class="d-flex">
+        <div class="flex-grow-1 px-2">
+          <input
+            type="text"
+            class="form-control"
+            #input
+            (input)="onInput(input)"
+          />
+        </div>
+        <div class="flex-shrink">
+          <button class="btn btn-primary"  (click)="onAddPayment()" >
+            new payment
+          </button>
+        </div>
+      </div>
+
+      <!-- add new payment -->
+      <!-- <app-edit-payment *ngIf="newPayment" (SaveOrCancel)="onAddPayment()"></app-edit-payment> -->
+
+      <!-- table of content -->
+      <div>
+        <table class="table table-based">
+          <thead>
+            <th>N</th>
+            <th>{{paymentType === 'received' ? 'Customer' : 'vendor'}}</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th></th>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="4" *ngIf="deleteError">
+                <div class="alert alert-warning">the payment not deleted</div>
+              </td>
+            </tr>
+            <ng-container *ngFor="let payment of printPayments; let i = index">
+              <tr *ngIf="i !== paymentEditedIndex" class="hover">
+                <td>
+                  <div>{{ payment?.num }}</div>
+                </td>
+                <td>
+                  <div>{{ payment?.person?.name }}</div>
+                </td>
+                <td>{{ payment.createdAt }}</td>
+                <td>{{ payment?.amount }}</td>
+                <td>
+                  <button
+                    class="btn btn-secondary btn-sm"
+                    [routerLink]="[payment?._id,'edit']"
+                  >
+                    edit
+                  </button>
+                  <button
+                    class="btn btn-danger btn-sm"
+                    (click)="onDelete(payment, i)"
+                  >
+                    delete
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="i === paymentEditedIndex">
+                <td colspan="4">
+                  <!-- edit payment-------------------- -->
+                  <!-- <app-edit-payment
+                    [payment]="payment"
+                    (SaveOrCancel)="onEditPaymentFinished($event)"
+                  ></app-edit-payment> -->
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+        <div *ngIf="collectionSize > maxSize" style="float: right">
+          <ngb-pagination
+            [collectionSize]="collectionSize"
+            [(page)]="page"
+            (pageChange)="onPagination(page)"
+            [maxSize]="maxSize"
+            [rotate]="false"
+            [boundaryLinks]="false"
+            size="sm"
+          ></ngb-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>
