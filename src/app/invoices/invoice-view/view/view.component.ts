@@ -22,9 +22,9 @@ export class ViewComponent implements OnInit {
   onDelete(){
     if(confirm('do you want to delete this invoice'))
           this.invoiceService.deleteInvoiceById(this.invoice?._id)
-            .subscribe({next: () => {
+            .subscribe({next: (res:any) => {
               alert('the invoice has been deleted');
-              this.invoiceService.getInvoices();
+              this.invoiceService.getInvoicesByType(res?.type);
               this.onCancel();
             }})
   }

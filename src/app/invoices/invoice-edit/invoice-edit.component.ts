@@ -124,8 +124,8 @@ export class InvoiceEditComponent implements OnInit {
   onSubmit() {
     console.log(this.form.value);
     let handleRes: any;
-    if(this.isNewInvoice)this.invoiceService.saveInvoice(this.form.value);
-     else this.invoiceService.updateInvoice(this.form.value, this.form.get('_id')?.value);
+    if(this.isNewInvoice)handleRes = this.invoiceService.saveInvoice(this.form.value);
+     else handleRes = this.invoiceService.updateInvoice(this.form.value, this.form.get('_id')?.value);
 
      handleRes.subscribe({
       next: (res:any) => {
