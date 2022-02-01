@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { EditResponse } from 'src/app/common/validators/edit-response.model';
 import { PersonService } from 'src/app/services/person.service';
-import { Person } from '../person.model';
+import { Person, TypePerson } from '../person.model';
 
 @Component({
   selector: 'app-edit-person',
@@ -11,6 +11,7 @@ import { Person } from '../person.model';
 })
 export class EditPersonComponent implements OnInit {
   @Input('person') personEdit!: Person;
+  @Input('personType') personType! : TypePerson;
   @Output('cancelSave') event = new EventEmitter();
   editResponse = new EditResponse();
   isNewPerson =  false;
@@ -46,6 +47,7 @@ export class EditPersonComponent implements OnInit {
 
   onSubmit() {
     // don't do anything if the form is invalid
+    console.log(this.form)
     if (!this.form.valid  || this.editResponse.save ) return ;
     this.editResponse.save = true;
     // change person
@@ -60,7 +62,7 @@ export class EditPersonComponent implements OnInit {
     } else if (personType === 'both') {
       person.customer = true;
       person.vendor = true;
-    }
+    } else return;
     // save or update person
     let handleRes: any;
     if(this.isNewPerson)  handleRes = this.personService.savePerson(person);

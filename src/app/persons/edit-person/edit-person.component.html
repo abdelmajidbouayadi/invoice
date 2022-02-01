@@ -85,8 +85,7 @@
             </td>
             <td>
               <select type="text" placeholder="type of person" class="form-select p-0 ps-2" formControlName="personType"  required>
-                <option value="customer">customer</option>
-                <option value="vendor">vendor</option>
+                <option  [value]="personType">{{personType}}</option>
                 <option value="both">customer & vendor</option>
               </select>
             </td>

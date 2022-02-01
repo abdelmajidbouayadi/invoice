@@ -232,9 +232,10 @@
       </div>
       <div class="col p-0" style="position: relative;">
 
-        <!-- search products -->
-        <div class="border border-5 rounded border-sacondary " [ngClass]="{'sticky-top':!isSearchPerson }">
-        <app-search-product  (product)="addRow($event)"></app-search-product>
+        <!-- search products   -->
+        <div class="border border-5 rounded border-sacondary" style=" position: sticky;
+        top: 0;">
+        <app-search-product  (product)="addRow($event)" ></app-search-product>
       </div>
       </div>
     </div>

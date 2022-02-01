@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { InvoiceService } from 'src/app/services/invoice.service';
 import { Invoice, TypeInvoice } from '../invoice.model';
 import { Product } from '../../products/product.model';
@@ -35,7 +35,8 @@ export class InvoiceEditComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private invoiceService: InvoiceService
+    private invoiceService: InvoiceService,
+    private router : Router
   ) {}
   ngOnInit(): void {
     this.invoiceType = this.route.pathFromRoot.toString().includes("sales") ? TypeInvoice.invoice : TypeInvoice.bill;
@@ -87,7 +88,8 @@ export class InvoiceEditComponent implements OnInit {
   newInvoice() {
     this.isNewInvoice = true;
     this.addRow();
-    this.form.get('type')?.patchValue(this.invoiceType)
+    this.form.get('type')?.patchValue(this.invoiceType);
+    this.form.get('date')?.patchValue(new Date().toJSON().slice(0,10));
     this.invoiceService.getInvoiceLastNum(this.invoiceType).subscribe({
       next: (res) => {
         this.form.get('num')?.patchValue(+res + 1);
@@ -129,6 +131,8 @@ export class InvoiceEditComponent implements OnInit {
 
      handleRes.subscribe({
       next: (res:any) => {
+        if(this.isNewInvoice) this.router.navigate(['../'], {relativeTo: this.route});
+        else  this.router.navigate(['../../'], {relativeTo: this.route});
         console.log(res);
       },
       error: (err :any) => {

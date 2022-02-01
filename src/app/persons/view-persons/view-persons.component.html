@@ -45,18 +45,18 @@
           style="float: right"
           (click)="addPerson()"
         >
-          New Person
+          New {{typePerson}}
         </button>
-        <h1>Search Products</h1>
+        <h1>Search {{typePerson}}s</h1>
       </div>
 
       <!-- add mode -->
       <div *ngIf="isAddMode">
-        <app-edit-person (cancelSave)="addPersonFinished()"></app-edit-person>
+        <app-edit-person (cancelSave)="addPersonFinished()" [personType]="typePerson"></app-edit-person>
       </div>
       <!-- edit Mode -->
       <div *ngIf="isEditMode">
-        <app-edit-person (cancelSave)="addPersonFinished()" [person]="personEdited"></app-edit-person>
+        <app-edit-person (cancelSave)="addPersonFinished()" [person]="personEdited" [personType]="typePerson"></app-edit-person>
       </div>
 
 

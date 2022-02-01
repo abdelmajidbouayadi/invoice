@@ -65,10 +65,10 @@
       </div>
       <div class="bg-light p-2">
         <a (click)="onAppEdit()" class="ab-text">
-          <i class="bi bi-plus"></i> add new customer
+          <i class="bi bi-plus"></i> add new {{personType}}
         </a>
         <div *ngIf="isEditMode">
-          <app-edit-person (cancelSave)="onAdd($event)"></app-edit-person>
+          <app-edit-person (cancelSave)="onAdd($event)" [personType]="personType"></app-edit-person>
         </div>
       </div>
     </div>
