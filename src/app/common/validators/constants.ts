@@ -1,3 +1,3 @@
 export const Constants = {
-  jwtStorageName: 'jwtToken',
+  userData: 'userData',
 }

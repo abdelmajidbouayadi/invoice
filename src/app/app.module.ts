@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from'@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from'@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -32,6 +32,8 @@ import { ViewPersonComponent } from './persons/view-person/view-person.component
 import { AuthComponent } from './auth/auth.component';
 import { UserComponent } from './user/user.component';
 import { ProfileComponent } from './user/profile/profile.component';
+import { AuthInterceptorService } from './auth/auth-interceptor.service';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,8 @@ import { ProfileComponent } from './user/profile/profile.component';
     ViewPersonComponent,
     AuthComponent,
     UserComponent,
-    ProfileComponent
+    ProfileComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +74,12 @@ import { ProfileComponent } from './user/profile/profile.component';
     NgbModule
 
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS,
+      multi:true,
+    useClass: AuthInterceptorService
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -25,14 +25,23 @@ export class AuthService {
   }
   logout(){
     this.user.next(null);
-    localStorage.removeItem(Constants.jwtStorageName);
+    localStorage.removeItem(Constants.userData);
+  }
+  autoLogin(){
+    console.log(String(localStorage.getItem(Constants.userData)));
+    const userData:any = JSON.parse(String(localStorage.getItem(Constants.userData)));
+    if(!userData)return ;
+    const loadedUser = new User(userData?._token, userData?.email,+userData?.expirationDate,userData?._id);
+    console.log(loadedUser)
+    if(loadedUser.token)
+      this.user.next(loadedUser);
   }
 
   handleAuthentication(userData: any) {
     const { _token, email, expiresIn, id } = userData;
     const expirationDate =  Date.now() + (+expiresIn)*1000;
     const actualUser = new User(_token, email, expirationDate, id);
-    localStorage.setItem(Constants.jwtStorageName,_token);
+    localStorage.setItem(Constants.userData,JSON.stringify({ _token, email, expirationDate , _id: id }));
     this.user.next(actualUser);
   }
 }
