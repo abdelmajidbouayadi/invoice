@@ -61,6 +61,10 @@
   color: gray;
   padding: 4px;
 }
+.hover-icon:hover{
+  cursor: pointer;
+  font-size: 18;
+}
 </style>
 <!-- image -->
 <div class="ab-box" (click)="onViewProfile()">
@@ -72,7 +76,7 @@
 
 <!-- profile detail -->
 <div *ngIf="isViewProfile" class="ab-detail-container">
-  <div class="float-end p-2" (click)="onViewProfile()" >
+  <div class="float-end p-2 hover-icon " (click)="onViewProfile()" >
     <i class="fs-4 bi bi-x-lg"></i>
   </div>
   <div class="ab-center">
@@ -84,9 +88,9 @@
   </div>
   </div>
   <div class="fw-bold text-center ">ALIDF BOUALI </div>
-  <div class="ab-text">{{user?._id}}</div>
+  <div class="ab-text">id: {{user?._id}}</div>
   <!-- <div class="ab-text">Organization ID: 770144098</div> -->
-  <div class="ab-text">{{user?.email}}</div>
+  <div class="ab-text">email: {{user?.email}}</div>
 
 
   <!-- buttons -->

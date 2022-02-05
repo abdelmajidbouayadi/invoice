@@ -19,9 +19,6 @@
   thead th:nth-child(4) {
     width: 20%;
   }
-  thead th:nth-child(5) {
-    width: 5%;
-  }
 
   th,
   td {
@@ -54,28 +51,46 @@
     width: 20%;
     text-align: center;
   }
-  .nav-item:hover{
+  .nav-item:hover {
+    cursor: pointer;
     font-weight: bolder;
   }
-  .nav-item:active{
+  .nav-item:active {
     font-weight: bolder;
     background-color: lightgray;
   }
-  a{
+  a {
     color: black;
   }
 
-  .cancel{
+  .cancel {
     font-size: 20px;
   }
-  .cancel:hover{
+  .cancel:hover {
     background-color: lightgray;
+  }
+  @media print {
+    @page {
+      size: A4;
+      margin: 0 !important;
+
+    }
+    #print {
+      position: absolute;
+      top: -50px;
+      left:-200px;
+      padding-bottom: 100px;
+      z-index: 1000;
+      width: 100vw;
+      min-height: 100vh;
+      background-color: white;
+    }
   }
 </style>
 
 <!-- header  -->
 <div class="d-flex">
-  <h4 class="flex-grow-1">{{invoice?.type}} Num:{{ invoice?.num }}</h4>
+  <h4 class="flex-grow-1">{{ invoice?.type }} Num:{{ invoice?.num }}</h4>
   <button class="btn cancel" (click)="onCancel()">
     <i class="bi bi-x-lg"></i>
   </button>
@@ -83,111 +98,116 @@
 
 <!-- menu bar -->
 <nav class="nav">
-  <li class="nav-item"  [routerLink]="[invoice?._id,'edit']">
+  <li class="nav-item" [routerLink]="[invoice.type ==='invoice' ? '/sales/invoices' : '/purchase/bills' ,invoice?._id, 'edit']">
     <a> <i class="bi bi-pencil"></i> edit</a>
   </li>
-  <li class="nav-item">
-    <a href=""><i class="bi bi-printer"></i>print</a>
+  <li class="nav-item" (click)="printInvoice()">
+    <a><i class="bi bi-printer"></i>print</a>
   </li>
-  <li class="nav-item"><a href=""> <i class="bi bi-file-pdf"></i>pdf</a></li>
-  <li class="nav-item"><a href=""><i class="bi bi-send"></i>send</a></li>
-  <li class="nav-item"  (click)="onDelete()"><a><i class="bi bi-trash"></i>delete</a></li>
+  <li class="nav-item">
+    <a > <i class="bi bi-file-pdf"></i>pdf</a>
+  </li>
+  <li class="nav-item">
+    <a ><i class="bi bi-send"></i>send</a>
+  </li>
+  <li class="nav-item" (click)="onDelete()">
+    <a><i class="bi bi-trash"></i>delete</a>
+  </li>
 </nav>
 
+<!-- invoice details -->
+
 <div class="border border-1 border-light shadow m-2 bg-body rounded">
-  <div class="container-fluid">
-    <div class="row px-4 py-5 bg-info text-white">
-      <div class="col">
-        <h1><i class="bi bi-file-text"></i> {{invoice?.type}}</h1>
-      </div>
-    </div>
-
-    <div class="row bg-light pb-4 ps-4">
-      <!-- Bill TO--- Invoice from---------------------------- -->
-      <div class="col-8 p-0">
-        <div>
-          <p class="word-key-start m-0">{{invoice?.type === 'invoice' ? 'Bill to': 'Invoice from'}}</p>
-          <div>{{ invoice?.name }}</div>
-          <div>{{ invoice?.address }}</div>
-          <div>{{ invoice?.city }}</div>
-          <div>{{ invoice?.country }}</div>
-          <div>{{ invoice?.postal }}</div>
+  <div id="print">
+    <div class="container-fluid">
+      <div class="row px-4 py-5 bg-info text-white">
+        <div class="col">
+          <h1><i class="bi bi-file-text"></i> {{ invoice?.type }}</h1>
         </div>
       </div>
 
-      <!-- invoice N ------------------------------------------- -->
-      <div class="col-4">
-        <div class="mb-2">
-          <div class="word-key-end ">{{invoice?.type}} N:</div>
-          <div class="right">{{ invoice?.num }}</div>
+      <div class="row bg-light pb-4 ps-4">
+        <!-- Bill TO--- Invoice from---------------------------- -->
+        <div class="col-8 p-0">
+          <div>
+            <p class="word-key-start m-0">
+              {{ invoice?.type === "invoice" ? "Bill to" : "Invoice from" }}
+            </p>
+            <div>{{ invoice?.name }}</div>
+            <div>{{ invoice?.address }}</div>
+            <div>{{ invoice?.city }}</div>
+            <div>{{ invoice?.country }}</div>
+            <div>{{ invoice?.postal }}</div>
+          </div>
         </div>
-        <div class="mb-2">
-          <div class="word-key-end">Date:</div>
-          <div class="right ">{{ invoice?.date | date }}</div>
-        </div>
-        <div class="mb-2">
-          <div class="word-key-end ">Invoice due Date:</div>
-          <div class="right ">{{ invoice?.invoiceDueDate | date }}</div>
+
+        <!-- invoice N ------------------------------------------- -->
+        <div class="col-4">
+          <div class="mb-2">
+            <div class="word-key-end">{{ invoice?.type }} N:</div>
+            <div class="right">{{ invoice?.num }}</div>
+          </div>
+          <div class="mb-2">
+            <div class="word-key-end">Date:</div>
+            <div class="right">{{ invoice?.date | date }}</div>
+          </div>
+          <div class="mb-2">
+            <div class="word-key-end">Invoice due Date:</div>
+            <div class="right">{{ invoice?.invoiceDueDate | date }}</div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="row ps-4">
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th>QTY</th>
-            <th>description</th>
-            <th>price</th>
-            <th>Amount</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let row of invoice?.rows; let i = index">
-            <td>
-              {{ row?.quantity }}
-            </td>
-            <td>
-              {{ row?.title }}
-            </td>
-            <td>
-              {{ row?.price }}
-            </td>
-            <td>
-              {{ (row?.quantity || 0) * (row?.price || 0) }}
-            </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <div class="row ps-4">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>QTY</th>
+              <th>description</th>
+              <th>price</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of invoice?.rows; let i = index">
+              <td>
+                {{ row?.quantity }}
+              </td>
+              <td>
+                {{ row?.title }}
+              </td>
+              <td>
+                {{ row?.price }}
+              </td>
+              <td>
+                {{ (row?.quantity || 0) * (row?.price || 0) }}
+              </td>
+            </tr>
 
-    <!-- -----Total and Note *------------------------- -->
-    <div class="row">
-      <div class="col-7 bg-light ps-4">
-        <div class="form-group">
-          <label for="note">Note</label>
-          <textarea
-            name="note"
-            id="note"
-            cols="30"
-            rows="2"
-            disabled
-            [value]="invoice?.note"
-            class="form-control bg-light"
-          ></textarea>
-        </div>
+          </tbody>
+        </table>
       </div>
 
-      <div class="col-5 bg-info text-white">
-        <h3 class="right">Total</h3>
-        <h1 class="right">{{ Total() }}</h1>
+      <!-- -----Total and Note *------------------------- -->
+      <div class="row">
+        <div class="col-7 bg-light ps-4">
+          <div class="form-group">
+            <label for="note">Note</label>
+            <textarea
+              name="note"
+              id="note"
+              cols="30"
+              rows="2"
+              disabled
+              [value]="invoice?.note"
+              class="form-control bg-light"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="col-5 bg-info text-white">
+          <h3 class="right">Total</h3>
+          <h1 class="right">{{ Total() }}</h1>
+        </div>
       </div>
     </div>
   </div>

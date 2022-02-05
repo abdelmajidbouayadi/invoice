@@ -32,5 +32,9 @@ export class ViewComponent implements OnInit {
     this.event.emit({cancel: true});
   }
 
+  printInvoice(){
+    window.print();
+  }
+
 
 }
