@@ -19,7 +19,7 @@ export class InvoiceViewComponent implements OnInit {
   invoiceView!: Invoice;
    ngOnInit() {
     this.invoiceType = this.route.pathFromRoot.toString().includes("sales") ? TypeInvoice.invoice : TypeInvoice.bill;
-    this.subscription = this.invoicesService.invoiceUpdate()
+    this.subscription = this.invoicesService.invoiceChanges()
               .subscribe((res: Invoice[]) => {
                 this.invoices= res;
               });

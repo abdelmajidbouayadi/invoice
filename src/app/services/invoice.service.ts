@@ -33,7 +33,7 @@ export class InvoiceService {
       this.invoicesChange.next(response);
     });
   }
-  invoiceUpdate() {
+  invoiceChanges() {
     return this.invoicesChange.asObservable();
   }
 
