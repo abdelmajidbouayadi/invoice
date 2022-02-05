@@ -1,0 +1,94 @@
+<style>
+
+  /* style for profile image */
+  .ab-box {
+    position: relative;
+    background-color: rgb(0, 136, 122);
+    height: 50px;
+    width: 50px;
+    border: 0px solid rgb(0, 136, 122);
+    border-radius: 50%;
+  }
+  .ab-outside {
+    position: absolute;
+    right: 0;
+    top: 0;
+    outline: 5px solid whitesmoke;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+  }
+  .first {
+    height: 10px;
+  }
+  .second {
+    height: 20px;
+    width: 20px;
+    margin-left: 15px;
+    border: 3px solid whitesmoke;
+    border-radius: 50%;
+  }
+  .third {
+    height: 20px;
+    width: 30px;
+    top: 30px;
+    margin-left: 10px;
+    background-color: whitesmoke;
+    border-radius: 50% 50% 0 0;
+  }
+  .hover:hover {
+    cursor: pointer;
+    outline: 5px solid lightgray;
+  }
+
+  /* style for profile details */
+
+  .ab-detail-container{
+    position: fixed;
+    z-index: 10;
+    top: 50px;
+    right: 0;
+    width: 400px;
+    height: calc(100vh - 50px);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    background-color: white;
+  }
+.ab-center{
+  padding: 50px 0px 20px 180px;
+}
+.ab-text{
+  text-align: center;
+  color: gray;
+  padding: 4px;
+}
+</style>
+<!-- image -->
+<div class="ab-box" (click)="onViewProfile()">
+  <div class="ab-outside hover"></div>
+  <div class="first"></div>
+  <div class="second"></div>
+  <div class="third"></div>
+</div>
+
+<!-- profile detail -->
+<div *ngIf="isViewProfile" class="ab-detail-container">
+  <div class="float-end p-2" (click)="onViewProfile()" >
+    <i class="fs-4 bi bi-x-lg"></i>
+  </div>
+  <div class="ab-center">
+    <div class="ab-box">
+    <div class="ab-outside "></div>
+    <div class="first"></div>
+    <div class="second"></div>
+    <div class="third"></div>
+  </div>
+  </div>
+  <div class="fw-bold text-center ">ALIDF BOUALI </div>
+  <div class="ab-text">{{user?._id}}</div>
+  <!-- <div class="ab-text">Organization ID: 770144098</div> -->
+  <div class="ab-text">{{user?.email}}</div>
+
+
+  <!-- buttons -->
+  <button class="btn btn-danger" style="margin-left: 160px;" (click)="onLogout()">Log Out</button>
+</div>

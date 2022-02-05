@@ -6,10 +6,11 @@
     width:calc(100vw - 220px );
   }
 </style>
+<app-auth *ngIf="!isAuthenticate"></app-auth>
+<app-user  *ngIf="isAuthenticate"></app-user>
+<app-nav-bar *ngIf="isAuthenticate"></app-nav-bar>
 
-<app-nav-bar></app-nav-bar>
-
-<div class="absolute">
+<div  *ngIf="isAuthenticate" class="absolute">
   <router-outlet></router-outlet>
 </div>
 

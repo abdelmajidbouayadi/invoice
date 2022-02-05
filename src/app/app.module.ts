@@ -29,6 +29,9 @@ import { ViewPersonsComponent } from './persons/view-persons/view-persons.compon
 import { PaymentsComponent } from './payments/payments.component';
 import { EditPaymentComponent } from './payments/edit-payment/edit-payment.component';
 import { ViewPersonComponent } from './persons/view-person/view-person.component';
+import { AuthComponent } from './auth/auth.component';
+import { UserComponent } from './user/user.component';
+import { ProfileComponent } from './user/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +57,10 @@ import { ViewPersonComponent } from './persons/view-person/view-person.component
     ViewPersonsComponent,
     PaymentsComponent,
     EditPaymentComponent,
-    ViewPersonComponent
+    ViewPersonComponent,
+    AuthComponent,
+    UserComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
