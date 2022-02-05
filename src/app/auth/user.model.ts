@@ -7,7 +7,7 @@ export class User {
   ){}
 
   get token(){
-    return this._token;
+    return Date.now() < this.expirationDate ? this._token : '' ;
   }
   get _id(){
     return this.id;
