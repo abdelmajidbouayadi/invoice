@@ -1,0 +1,181 @@
+<style>
+  .ab-container {
+    background-color: rgb(249, 249, 249);
+  }
+  .ab-box {
+    border: 2px solid #e5e5e5;
+    border-radius: 10px;
+    margin: 4px;
+    background-color: white;
+  }
+  .ab-box-header {
+    text-align: center;
+    padding: 5px;
+    font-size: 30px;
+    font-weight: bold;
+    background-color: rgb(249, 249, 249);
+    height: 50px;
+  }
+  .ab-box-body {
+    padding: 10px;
+  }
+</style>
+<div class="container-fluid ab-container">
+  <div class="row">
+    <div class="col-6">
+      <!-- *********************************************************************** -->
+      <!-- sales Statistics -->
+      <div class="ab-box">
+        <div class="ab-box-header">Sales Statistics</div>
+        <div class="ab-box-body">
+          <div class="row">
+            <div class="col-7">
+              <div>Total invoices: {{ invoicesDetails?.totalNumber }}</div>
+              <div>Total sales: {{ invoicesDetails?.totalSales }}</div>
+              <div>Total sales this year:{{ invoicesDetails?.yearSales }}</div>
+            </div>
+            <div class="col-5">
+              <input
+                type="number"
+                min="1900"
+                max="2099"
+                step="1"
+                value="2022"
+                #input
+                class="form-control"
+                (keydown.enter)="onInsertYear(input, typeInvoice.invoice)"
+              />
+            </div>
+          </div>
+
+          <canvas
+            *ngIf="isReady"
+            baseChart
+            [data]="dataInvoices"
+            [type]="'bar'"
+          >
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- ********************************************************* -->
+    <!--  purchases -->
+    <div class="col-6">
+      <div class="ab-box">
+        <div class="ab-box-header">Purchases Statistics</div>
+        <div class="ab-box-body">
+          <div class="row">
+            <div class="col-7">
+              <div>Total bills: {{ billsDetails?.totalNumber }}</div>
+              <div>Total sales: {{ billsDetails?.totalSales }}</div>
+              <div>Total sales this year:{{ billsDetails?.yearSales }}</div>
+            </div>
+            <div class="col-5">
+              <input
+                type="number"
+                min="1900"
+                max="2099"
+                step="1"
+                value="2022"
+                class="form-control"
+                #input2
+                (keydown.enter)="onInsertYear(input2, typeInvoice.bill)"
+              />
+            </div>
+          </div>
+
+          <canvas *ngIf="isReady" baseChart [data]="dataBills" [type]="'bar'">
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <!-- ************************************************************* -->
+      <!-- Payment -->
+      <div class="ab-box">
+        <div class="ab-box-header">Payments Statistics</div>
+        <div class="ab-box-body">
+          <div class="row">
+            <div class="col-7">
+              <div>
+                Total Payment Received:
+                {{ paymentsDetails?.totalPaymentsReceived }}
+              </div>
+              <div>
+                Total Payment Made: {{ paymentsDetails.totalPaymentsMade }}
+              </div>
+              <div>
+                Total payment Received this year:{{
+                  paymentsDetails?.yearPaymentsReceived
+                }}
+              </div>
+              <div>
+                Total payment made this year:{{
+                  paymentsDetails?.totalPaymentsMade
+                }}
+              </div>
+            </div>
+            <div class="col-5">
+              <input
+                type="number"
+                min="1900"
+                max="2099"
+                step="1"
+                value="2022"
+                #input3
+                class="form-control"
+                (keydown.enter)="onPaymentInsertYear(input3)"
+              />
+            </div>
+          </div>
+
+          <canvas
+            *ngIf="isReady"
+            baseChart
+            [data]="dataPayments"
+            [type]="'line'"
+          >
+          </canvas>
+        </div>
+      </div>
+    </div>
+    <!-- ******************************************************************** -->
+    <!-- total product -->
+    <!-- <div class="col-6">
+      <div class="ab-box">
+        <div class="ab-box-header">Purchases Statistics</div>
+        <div class="ab-box-body">
+          <div class="row">
+            <div class="col-7">
+              <div>Total bills: {{ billsDetails?.totalNumber }}</div>
+              <div>Total sales: {{ billsDetails?.totalSales }}</div>
+              <div>Total sales this year:{{ billsDetails?.yearSales }}</div>
+            </div>
+            <div class="col-5">
+              <input
+                type="number"
+                min="1900"
+                max="2099"
+                step="1"
+                value="2022"
+                class="form-control"
+                #input2
+                (keydown.enter)="onInsertYear(input2, typeInvoice.bill)"
+              />
+            </div>
+          </div>
+
+          <canvas *ngIf="isReady" baseChart [data]="dataBills" [type]="'bar'">
+          </canvas>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- <div class="row">
+      <div class="col-6">the rest</div>
+      <div class="col-6">Expenses</div>
+    </div> -->
+  </div>
+</div>

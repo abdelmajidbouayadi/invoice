@@ -33,6 +33,9 @@ export class InvoiceService {
       this.invoicesChange.next(response);
     });
   }
+  getInvoicesByTypeM(invoiceType: TypeInvoice) {
+    return this.http.get(this.url+'/type/' + invoiceType);
+  }
   invoiceChanges() {
     return this.invoicesChange.asObservable();
   }

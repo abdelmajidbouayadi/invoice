@@ -39,12 +39,18 @@ export class PaymentService {
       this.paymentsChange.next(response);
     });
   }
+  getPaymentsM() {
+    return this.http.get(this.url);
+  }
 
   getPaymentsByType(type: TypePayment) {
     this.http.post(this.url + '/search', {type}).subscribe((response: any) => {
       this.payments = response;
       this.paymentsChange.next(response);
     });
+  }
+  getPaymentsByTypeM(type: TypePayment) {
+    return this.http.post(this.url + '/search', {type});
   }
   getPaymentsByPersonId(personId: string | null) {
     return this.http.post(this.url + '/search', {person : personId })
