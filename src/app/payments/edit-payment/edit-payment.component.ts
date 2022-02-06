@@ -17,11 +17,12 @@ export class EditPaymentComponent implements OnInit {
   paymentEdit!: Payment;
   paymentType = TypePayment.received;
   enumTypePerson= TypePerson;
+  isEditReady = false;
   form = this.fb.group({
     _id: '',
     amount: null,
     num: null,
-    date: Date(),
+    date: new Date().toISOString().slice(0,10),
     person: '',
     type: TypePayment,
   });
@@ -41,8 +42,8 @@ export class EditPaymentComponent implements OnInit {
       if (id) {
         this.paymentService.getPaymentById(id).subscribe({
           next: (res: any) => {
-            this.paymentEdit = res;
-            console.log(res)
+            this.handleResponse(res);
+
           }
         })
       } else {
@@ -61,7 +62,19 @@ export class EditPaymentComponent implements OnInit {
     if($event.person)
     this.form.get('person')?.patchValue($event.person?._id);
   }
-
+  handleResponse(res: any){
+    this.paymentEdit = res;
+    const form = {
+      _id: res?._id,
+      amount: res?.amount,
+      num: res?.num,
+      date: (res?.date as string).slice(0,10),
+      person: res?.person?._id,
+      type: res.type,
+    } ;
+    this.form.patchValue(form);
+    this.isEditReady = true;
+  }
   onSubmit() {
     // don't do anything if the form is invalid
     if (!this.form.valid || this.editResponse.save) return;
@@ -75,7 +88,8 @@ export class EditPaymentComponent implements OnInit {
       handleRes = this.paymentService.updatePaymentById(payment, payment._id);
     handleRes.subscribe({
       next: (res: Payment) => {
-        this.router.navigate(['../'], { relativeTo: this.route });
+        if(this.isNewPayment) this.router.navigate(['../'], { relativeTo: this.route });
+        else this.router.navigate(['../../'], { relativeTo: this.route });
       },
       error: (err: any) => {
         this.editResponse.save = false;

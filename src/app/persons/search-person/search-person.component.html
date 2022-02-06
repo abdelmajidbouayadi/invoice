@@ -34,7 +34,7 @@
   }
 </style>
 <div class="ab-body">
-  <div class="form-control text-secondary p-0 ps-2 hover" (click)="isSearchPerson=!isSearchPerson">{{ personSelected?.name ?  personSelected.name : 'select person'}}
+  <div class="form-control text-secondary p-0 ps-2 hover" (click)="isSearchPerson=!isSearchPerson">{{ personSelected?.name ?  personSelected?.name : 'select person'}}
     <i class="bi " [ngClass]="{'bi-chevron-right': !isSearchPerson, 'bi-chevron-down': isSearchPerson}" style="float: right;"></i>
   </div>
   <div  *ngIf="isSearchPerson">

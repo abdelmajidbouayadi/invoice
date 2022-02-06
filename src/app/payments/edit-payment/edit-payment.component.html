@@ -95,14 +95,17 @@
               <label for="" class="p-2">person:</label>
             </td>
             <td>
-              <app-search-person
-                (person)="onSearchPerson($event)"
-                [personType]="
-                  paymentType === 'received'
-                    ? enumTypePerson.customer
-                    : enumTypePerson.vendor
-                "
-              ></app-search-person>
+              <div *ngIf="isEditReady || isNewPayment ">
+                <app-search-person
+                  (person)="onSearchPerson($event)"
+                  [personType]="
+                    paymentType === 'received'
+                      ? enumTypePerson.customer
+                      : enumTypePerson.vendor
+                  "
+                  [idSelectedPerson]="paymentEdit?.person?._id"
+                ></app-search-person>
+              </div>
             </td>
           </tr>
         </table>

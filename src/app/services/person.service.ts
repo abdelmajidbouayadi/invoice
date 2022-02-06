@@ -51,6 +51,9 @@ export class PersonService {
   getPersonsById(id: string | null) {
     return this.http.get(this.url + '/' + id );
   }
+  getPersonsId(id: string ) {
+    return this.persons.find(person => person._id === id);
+  }
   deletePersonById(id: string) {
     return this.http.delete(this.url + '/' + id).pipe(
       tap((res: any) => {

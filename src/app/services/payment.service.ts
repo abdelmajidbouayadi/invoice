@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Subject } from 'rxjs';
+import { map, Subject, tap } from 'rxjs';
 import { Payment, TypePayment } from '../payments/payment.model';
 
 @Injectable({
@@ -8,17 +8,24 @@ import { Payment, TypePayment } from '../payments/payment.model';
 })
 export class PaymentService {
 
-  updatePaymentById(payment: Payment, _id: string): any {
-    throw new Error('Method not implemented.');
-  }
+
   private payments: Payment[] = [];
   private paymentsChange = new Subject<Payment[]>();
   constructor(private http: HttpClient) {}
   private url = 'http://localhost:3000/api/payments';
   savePayment(payment: Payment) {
     return this.http.post(this.url, payment).pipe(
-      map((res: any) => {
+      tap((res: any) => {
         this.payments.push(res);
+        this.paymentsChange.next(this.payments);
+      })
+    );
+  }
+  updatePaymentById(payment: Payment, id: string): any {
+    return this.http.patch(this.url + '/' + id , payment).pipe(
+      tap((res: any) => {
+        const indexUpdatePayment = this.payments.findIndex(payment => res._id === payment._id );
+        this.payments[indexUpdatePayment] = res;
         this.paymentsChange.next(this.payments);
       })
     );

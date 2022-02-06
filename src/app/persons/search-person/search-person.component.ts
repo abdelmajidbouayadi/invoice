@@ -10,13 +10,14 @@ import { Person, TypePerson } from '../person.model';
 })
 export class SearchPersonComponent implements OnInit {
   @Input('personType') personType!: TypePerson;
+  @Input('idSelectedPerson') idSelectedPerson: string | undefined = undefined;
   @Output('person') event = new EventEmitter();
   subscription!: Subscription;
   persons: Person[] = [];
   searchPersons: Person[] = [];
   printPersons: Person[] = [];
   isEditMode = false;
-  personSelected!: Person;
+  personSelected!: Person | undefined;
   isSearchPerson = false;
   constructor(private personService: PersonService) {}
   page = 1;
@@ -28,6 +29,14 @@ export class SearchPersonComponent implements OnInit {
         if (this.personType) {
           this.persons = res;
           this.initialization();
+          if (
+            this.idSelectedPerson &&
+            this.personService.getPersonsId(this.idSelectedPerson)
+          ) {
+            this.personSelected = this.personService.getPersonsId(
+              this.idSelectedPerson
+            );
+          }
         }
       }
     );
