@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Subject } from 'rxjs';
+import { Subject, tap } from 'rxjs';
 import { Person, TypePerson } from '../persons/person.model';
 
 @Injectable({
@@ -15,20 +15,19 @@ export class PersonService {
 
   savePerson(person: Person) {
     return this.http.post(this.url, person).pipe(
-      map((res: any) => {
+      tap((res: any) => {
         this.persons.push(res);
         this.personChange.next([...this.persons]);
-        return res;
       })
     );
   }
 
   updatePersonById(person: Person, id: string) {
     return this.http.patch(this.url + '/' + id, person).pipe(
-      map((res: any) => {
-        this.persons.push(res);
+      tap((res: any) => {
+        const indexUpdatePerson = this.persons.findIndex(person => res._id === person._id );
+        this.persons[indexUpdatePerson] = res;
         this.personChange.next([...this.persons]);
-        return res;
       })
     );
   }
@@ -54,11 +53,10 @@ export class PersonService {
   }
   deletePersonById(id: string) {
     return this.http.delete(this.url + '/' + id).pipe(
-      map((res: any) => {
+      tap((res: any) => {
         let index = this.persons.findIndex((person) => person._id === id);
         this.persons.splice(index, 1);
         this.personChange.next([...this.persons]);
-        return res;
       })
     );
   }

@@ -73,7 +73,9 @@ export class ViewPersonsComponent implements OnInit {
 
   onDelete($event: any, person: Person) {
     $event?.stopPropagation();
-    this.personService.deletePersonById(person._id).subscribe();
+    if(!confirm(`do you want to delete "${person.name}"`)) console.log('cancel')
+    else console.log('confirm')
+    // this.personService.deletePersonById(person._id).subscribe();
   }
   onEditPerson($event: any, person: Person) {
     $event?.stopPropagation();
