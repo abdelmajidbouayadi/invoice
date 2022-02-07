@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, catchError, exhaustMap, take, tap } from 'rxjs';
 import { Constants } from '../common/validators/constants';
 import { User } from './user.model';
 
@@ -8,39 +8,54 @@ import { User } from './user.model';
   providedIn: 'root',
 })
 export class AuthService {
-  private url = 'http://localhost:3000/login';
+  private loginUrl = 'http://localhost:3000/login';
+  private registerUrl = 'http://localhost:3000/register';
   user = new BehaviorSubject<User|null>(null);
   constructor(private http: HttpClient) {}
   signIn(email: string, password: string) {
     return this.http
-      .post(this.url, {
-        username: email,
-        password,
+    .post(this.loginUrl, {
+      username: email,
+      password,
+    })
+    .pipe(
+      tap((userData: any) => {
+        this.handleAuthentication(userData);
       })
-      .pipe(
-        tap((userData: any) => {
-          this.handleAuthentication(userData);
-        })
       );
-  }
-  logout(){
-    this.user.next(null);
-    localStorage.removeItem(Constants.userData);
-  }
+    }
+  register(newUser: { email: string; password: string; name: string; }) {
+      return this.http.post(this.registerUrl, newUser).pipe(
+        take(1),
+        exhaustMap((userInfo:any) => {
+          console.log(newUser)
+          return this.signIn(userInfo.email, newUser.password);
+        }),
+        catchError(err => {
+          console.log(err);
+          if(err.error.message === "Email_Already_Exists") throw new Error('email has already been used');
+          throw new Error('Unknown error');
+        })
+        );
+   }
+    logout(){
+      this.user.next(null);
+      localStorage.removeItem(Constants.userData);
+    }
   autoLogin(){
     console.log(String(localStorage.getItem(Constants.userData)));
     const userData:any = JSON.parse(String(localStorage.getItem(Constants.userData)));
     if(!userData)return ;
-    const loadedUser = new User(userData?._token, userData?.email,+userData?.expirationDate,userData?._id);
+    const loadedUser = new User(userData?._token,userData?.name ,userData?.email,+userData?.expirationDate,userData?._id);
     console.log(loadedUser)
     if(loadedUser.token)
       this.user.next(loadedUser);
   }
 
   handleAuthentication(userData: any) {
-    const { _token, email, expiresIn, id } = userData;
+    const { _token,name, email, expiresIn, id } = userData;
     const expirationDate =  Date.now() + (+expiresIn)*1000;
-    const actualUser = new User(_token, email, expirationDate, id);
+    const actualUser = new User(_token,name, email, expirationDate, id);
     localStorage.setItem(Constants.userData,JSON.stringify({ _token, email, expirationDate , _id: id }));
     this.user.next(actualUser);
   }

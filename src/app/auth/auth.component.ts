@@ -9,7 +9,8 @@ import { AuthService } from './auth.service';
 export class AuthComponent implements OnInit {
   isLoading = false;
   isError = false;
-
+  errorMessage:string|undefined;
+  isLogin =true;
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
@@ -18,16 +19,23 @@ export class AuthComponent implements OnInit {
   onSubmit(form: any){
     this.isLoading = true;
     this.isError = false;
-    const email = form.value?.email;
-    const password = form.value?.password;
-    this.authService.signIn(email,password).subscribe({
+    const {email , password, name}= form.value;
+
+    let handleResponse:any;
+    if(this.isLogin)
+     handleResponse = this.authService.signIn(email,password);
+     else {
+       const newUser = {email , password, name};
+       handleResponse = this.authService.register(newUser);
+     }
+     handleResponse.subscribe({
       next: ()=> {
         this.isLoading = false;
       },
-      error: (err)=> {
+      error: (err:Error)=> {
         this.isLoading = false;
         this.isError= true;
-        console.log(err);
+        this.errorMessage =err.message;
       }
     });
   }
