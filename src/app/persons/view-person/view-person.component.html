@@ -4,8 +4,23 @@
   }
   .ab-header {
     width: 100%;
-    height: 10vh;
-    background-color: whitesmoke;
+    min-height: 10vh;
+    border: 1px solid #E5E5E5;
+    border-radius: 3px;
+    margin: 10px;
+    background-color: white;
+  }
+  .ab-header-1{
+    display: inline-block;
+    vertical-align:top;
+    padding: 5px;
+    width: 60%;
+  }
+  .ab-header-2{
+    display: inline-block;
+    vertical-align:top;
+    padding: 5px;
+    width: 40%;
   }
   .ab-body {
     min-height: 80vh;
@@ -32,14 +47,35 @@
     vertical-align:top;
     width: 50%;
   }
+
+  .hover:hover{
+    background-color: whitesmoke;
+    cursor: pointer;
+  }
+  .hover:active{
+    background-color: lightgray;
+  }
 </style>
 <div class="ab-container">
   <!-- information client -->
   <div class="ab-header">
-    <h1>{{ personViewed?.name }}</h1>
+    <div class="ab-header-1">
+      <h3>name : {{ personViewed?.name }}</h3>
+    <div>
+      type :
+      {{personViewed.customer ? 'customer ' : ''}}
+      {{personViewed.customer && personViewed.vendor ? '& ' : ''}}
+      {{personViewed.vendor ? 'vendor' : ''}}
+    </div>
+    </div>
+
+    <div class="ab-header-2">
+      <h3>Remaining : {{remaining}} </h3>
+    </div>
+
   </div>
   <div class="ab-body ab-body-1">
-    <!-- print invoices  -->
+    <!-- view invoices  -->
     <table class="table">
       <thead>
         <tr>
@@ -50,10 +86,13 @@
       </thead>
       <tbody class="bg-white">
         <ng-container *ngFor="let invoice of personInvoices">
-          <tr (click)="viewInvoice(invoice)">
+          <tr (click)="viewInvoice(invoice)" class="hover">
             <td>{{ invoice?.num }}</td>
             <td>{{ invoice?.date | date }}</td>
-            <td>{{ invoiceTotal(invoice) }}</td>
+            <td [ngStyle]="{'color' :invoice.type=== typeInvoice.invoice ? 'green':'#800020'}">
+               {{ invoiceTotal(invoice) | currency}}
+               <i [ngClass]="invoice.type=== typeInvoice.invoice ? 'bi-caret-up-fill':'bi-caret-down-fill'" class="bi "></i>
+            </td>
           </tr>
         </ng-container>
       </tbody>
@@ -73,20 +112,22 @@
           <ng-container *ngFor="let payment of personPayments">
             <tr>
               <td>{{ payment?.date | date }}</td>
-              <td>{{ payment?.amount |currency}}</td>
+              <td [ngStyle]="{'color' :payment.type=== typePayment.received ? 'green':'#800020'}">{{ payment?.amount |currency}}
+                <i [ngClass]="payment.type=== typePayment.received ? 'bi-caret-up-fill':'bi-caret-down-fill'" class="bi "></i>
+              </td>
             </tr>
           </ng-container>
         </tbody>
       </table>
     </div>
     <div class="ab-bottom" style="top: 555px">
-      <input type="text" class="form-control" />
+      <!-- <input type="text" class="form-control" /> -->
     </div>
   </div>
 
   <div class="ab-body ab-body-3">
     <div *ngIf="!invoiceViewed">
-      <h1>Select Invoice</h1>
+      <h1 class="p-4">Select Invoice</h1>
     </div>
     <div *ngIf="invoiceViewed">
       <app-view-invoice [invoice]="invoiceViewed"></app-view-invoice>

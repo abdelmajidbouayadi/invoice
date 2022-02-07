@@ -8,9 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { InvoicesComponent } from './invoices/invoices.component';
 import { SummaryPipe } from './summary.pipe';
-import { InputformatDirective } from './inputformat.directive';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
-import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { InvoiceComponent } from './invoices/invoice/invoice.component';
 import { InvoiceEditComponent } from './invoices/invoice-edit/invoice-edit.component';
@@ -43,9 +41,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     AppComponent,
     InvoicesComponent,
     SummaryPipe,
-    InputformatDirective,
     NavBarComponent,
-    HomeComponent,
     NotFoundComponent,
     InvoiceComponent,
     InvoiceEditComponent,
