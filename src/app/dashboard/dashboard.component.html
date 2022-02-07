@@ -31,8 +31,8 @@
           <div class="row">
             <div class="col-7">
               <div>Total invoices: {{ invoicesDetails?.totalNumber }}</div>
-              <div>Total sales: {{ invoicesDetails?.totalSales }}</div>
-              <div>Total sales this year:{{ invoicesDetails?.yearSales }}</div>
+              <div>Total sales: {{ invoicesDetails?.totalSales| currency }}</div>
+              <div>Total sales this year:{{ invoicesDetails?.yearSales| currency }}</div>
             </div>
             <div class="col-5">
               <input
@@ -68,8 +68,8 @@
           <div class="row">
             <div class="col-7">
               <div>Total bills: {{ billsDetails?.totalNumber }}</div>
-              <div>Total sales: {{ billsDetails?.totalSales }}</div>
-              <div>Total sales this year:{{ billsDetails?.yearSales }}</div>
+              <div>Total sales: {{ billsDetails?.totalSales| currency }}</div>
+              <div>Total sales this year:{{ billsDetails?.yearSales| currency }}</div>
             </div>
             <div class="col-5">
               <input
@@ -101,19 +101,19 @@
             <div class="col-7">
               <div>
                 Total Payment Received:
-                {{ paymentsDetails?.totalPaymentsReceived }}
+                {{ paymentsDetails?.totalPaymentsReceived | currency }}
               </div>
               <div>
-                Total Payment Made: {{ paymentsDetails.totalPaymentsMade }}
+                Total Payment Made: {{ paymentsDetails.totalPaymentsMade | currency }}
               </div>
               <div>
                 Total payment Received this year:{{
-                  paymentsDetails?.yearPaymentsReceived
+                  paymentsDetails?.yearPaymentsReceived | currency
                 }}
               </div>
               <div>
                 Total payment made this year:{{
-                  paymentsDetails?.totalPaymentsMade
+                  paymentsDetails?.totalPaymentsMade| currency
                 }}
               </div>
             </div>

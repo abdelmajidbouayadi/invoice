@@ -9,7 +9,7 @@
   }
   .ab-body {
     min-height: 80vh;
-    border: 2px solid gray;
+    border: 2px solid #E5E5E5;
   }
   .ab-body-1 {
     display: inline-block;
@@ -73,7 +73,7 @@
           <ng-container *ngFor="let payment of personPayments">
             <tr>
               <td>{{ payment?.date | date }}</td>
-              <td>{{ payment?.amount }}</td>
+              <td>{{ payment?.amount |currency}}</td>
             </tr>
           </ng-container>
         </tbody>

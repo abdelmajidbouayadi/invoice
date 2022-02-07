@@ -74,9 +74,9 @@
             <tr (click)="viewInvoice(invoice)">
               <td>{{ invoice?.num }}</td>
               <td class="text-overflow">{{ invoice?.name }}</td>
-              <td class="text-overflow">{{ invoice?.date }}</td>
+              <td class="text-overflow">{{ invoice?.date | date}}</td>
               <td class="text-overflow">
-                {{ invoiceTotal(invoice) }}
+                {{ invoiceTotal(invoice) |currency }}
               </td>
             </tr>
           </ng-container>

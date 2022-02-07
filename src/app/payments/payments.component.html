@@ -76,7 +76,7 @@
                   <div>{{ payment?.person?.name }}</div>
                 </td>
                 <td>{{ payment.date | date }}</td>
-                <td>{{ payment?.amount }}</td>
+                <td>{{ payment?.amount | currency}}</td>
                 <td>
                   <button
                     class="btn  btn-sm"
